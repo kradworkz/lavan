@@ -1,0 +1,32 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        \DB::table('users')->insert([
+            'email' => 'admin@lavan.com',
+            'password' => bcrypt('123456789'),
+            'type' => 'Administrator',
+            'is_active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'email_verified_at' => now(),
+            'mobile' => '09123456789',
+            'name' => 'Covid Lavan',
+            'gender' => 'Male'
+        ]);
+
+        $this->call(BarangayTableSeeder::class);
+
+    }
+}
