@@ -36,7 +36,13 @@ services:
       - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - lavan-app-network
-      
+  certbot: 
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/var/www/certbot --email kradjumli@gmail.com --agree-tos --no-eff-email -d cvdlavan.xyz -d www.cvdlavan.xyz
+    volumes:
+      - ./dockerize/certbot/conf:/etc/letsencrypt
+      - ./dockerize/certbot/logs:/var/log/letsencrypt
+      - ./dockerize/certbot/data:/var/www/certbot
 
   db:
     image: mysql:5.7.22
