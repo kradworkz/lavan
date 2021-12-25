@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Traits\UserTrait;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\LogResource;
 use App\Http\Requests\UserRequest;
@@ -13,8 +12,6 @@ use App\Jobs\EmailNewAccount;
 
 class UserController extends Controller
 {
-    use UserTrait;
-    
     public function lists($keyword,$count){
         ($keyword == '-') ? $keyword = '' : $keyword;
         $data = User::where(function ($query) use ($keyword) {
