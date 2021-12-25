@@ -39,7 +39,7 @@ services:
 
   db:
     image: mysql:5.7.22
-    container_name: db
+    container_name: lavan-db
     restart: unless-stopped
     tty: true
     ports:
@@ -51,7 +51,7 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - dbdata:/var/lib/mysql/
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
+      - ./dockerize/mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - lavan-app-network
 
