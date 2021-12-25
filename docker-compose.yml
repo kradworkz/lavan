@@ -36,6 +36,9 @@ services:
       - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - lavan-app-network
+  certbot:
+    image: certbot/certbot
+      
 
   db:
     image: mysql:5.7.22
