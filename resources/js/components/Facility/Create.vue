@@ -23,14 +23,14 @@
                                 <div class="col-md-6" style="margin-top: -7px;">
                                     <div class="form-group">
                                         <label>Address: <span v-if="errors.address" class="haveerror">({{ errors.address[0] }})</span></label>
-                                        <input type="text" class="form-control" v-model="address">
+                                        <input type="text" class="form-control" v-model="address" style="text-transform: capitalize;">
                                     </div>
                                 </div>
                                 <div class="col-md-6" style="margin-top: -7px;">
                                     <div class="form-group">
-                                        <label>Barangay: <span v-if="errors.barangay" class="haveerror">({{ errors.barangay[0] }})</span></label>
+                                        <label>Barangay: <span v-if="errors.barangay_id" class="haveerror">({{ errors.barangay_id[0] }})</span></label>
                                           <multiselect 
-                                            v-model="barangay" 
+                                            v-model="barangay_id" 
                                             :options="barangays"
                                             :allow-empty="false"
                                             :show-labels="false"
@@ -76,9 +76,10 @@
             return {
                 currentUrl: window.location.origin,
                 errors: [], 
+                id: '',
                 name: '',
                 address: '',
-                barangay: '',
+                barangay_id: '',
                 main: false,
                 barangays: [],
                 editable: false,
@@ -94,13 +95,12 @@
         methods : {
             create(){
                 this.isLoading = true;
-                axios.post(this.currentUrl + '/request/user/store', {
-                    id: this.user.id,
-                    name: this.user.name,
-                    email: this.user.email,
-                    gender: this.user.gender,
-                    mobile: this.user.mobile,
-                    type: this.user.type,
+                axios.post(this.currentUrl + '/request/facility/store', {
+                    id: this.id,
+                    name: this.name,
+                    address: this.address,
+                    barangay_id: this.barangay_id.id,
+                    is_main: this.is_main,
                     editable: this.editable
                 })
                 .then(response => {
@@ -111,21 +111,32 @@
                 .catch(error => {
                     if (error.response.status == 422) {
                         this.errors = error.response.data.errors;
-                         this.isLoading = false;
+                        this.isLoading = false;
+                    }else{
+                        this.isLoading = false;
+                        Vue.$toast.error('<strong>Please contact Administrator</strong>', {
+                            position: 'bottom-right'
+                        });
                     }
                 });
             },
 
-            edit(user,editable){
-                this.user = user;
+            edit(list,editable){
+                this.id = list.id;
+                this.name = list.name;
+                this.address = list.address;
+                this.barangay_id = list.barangay;
+                this.is_main = list.is_main;
                 this.editable = editable;
             },
 
             clear(){
                 this.editable = false;
                 $("#new").modal("hide");
+                this.name = '';
+                this.address = '';
+                this.is_main = false;
                 this.errors = [];
-                this.users = {};
             },
 
         }, components: { Multiselect, Loading }

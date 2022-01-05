@@ -38,35 +38,29 @@
                             <tr>
                                 <th style="width: 2%;"></th>
                                 <th>Name</th>
-                                <th class="text-center">Contact Information</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Barangay</th>
+                                <th class="text-center">Type</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="user in users" v-bind:key="user.id">
+                            <tr v-for="list in lists" v-bind:key="list.id">
                                 <td>
                                     <div class="avatar-xs">
-                                        <span class="avatar-title rounded-circle">{{user.name.charAt(0)}}</span>
+                                        <span class="avatar-title rounded-circle">{{list.name.charAt(0)}}</span>
                                     </div>
                                 </td>
                                 <td>
-                                    <h5 class="font-size-13 mb-1 text-dark">{{user.name}}</h5>
-                                    <p class="font-size-12 text-muted mb-0">{{user.type}}</p>
+                                    <h5 class="font-size-13 mb-1 text-dark">{{list.name}}</h5>
+                                    <p class="font-size-12 text-muted mb-0">{{list.address}}</p>
                                 </td>
-                                <td class="text-center">
-                                    <h5 class="font-size-12 mb-1 text-dark">{{user.email}}</h5>
-                                    <p class="font-size-12 text-muted mb-0">{{user.mobile}}</p>
-                                </td>
-                                <td class="text-center">
-                                    <span v-if="user.is_active == 1" class="badge badge-success font-size-11">Active</span>
-                                    <span v-else class="badge badge-danger font-size-11">Inactive</span>
-                                </td>
-                                <td class="text-center">
-                                    <a class="mr-3 " @click="updatestatus(user)">
-                                        <i v-bind:class="(user.is_active == 1) ? 'text-success bx bx-lock-open' : 'text-dark bx bxs-lock'"></i>
+                                <td class="text-center">{{list.barangay.name}}</td>
+                                <td class="text-center">{{(list.is_main == 0) ? 'Barangay Isolation' : 'Main Isolation' }}</td>
+                                <td class="text-right">
+                                    <a class="mr-3 " @click="updaterooms(list)">
+                                        <i class="text-success bx bx-lock-open"></i>
                                     </a>
-                                    <a class="mr-3 text-warning" @click="edit(user)"><i class='bx bx-edit-alt' ></i></a>
+                                    <a class="mr-3 text-warning" @click="edit(list)"><i class='bx bx-edit-alt' ></i></a>
                                     <a class="text-danger"><i class='bx bx-trash'></i></a>
                                 </td>
                             </tr>
@@ -81,6 +75,10 @@
     <div class="modal fade exampleModal" id="new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <facility-create @status="message" ref="create"></facility-create>
     </div>
+
+    <div class="modal fade exampleModal" id="rooms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <facility-rooms @status="message" ref="rooms"></facility-rooms>
+    </div>
 </div>
 </template>
 
@@ -94,7 +92,7 @@ export default {
             errors: [],
             pagination: {},
             keyword: '',
-            users : [],
+            lists : [],
         }
     },
 
@@ -128,11 +126,11 @@ export default {
         fetch(page_url) {
             let vm = this; let key;
             (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
-            page_url = page_url || this.currentUrl + '/request/users/'+key+'/'+this.counts;
+            page_url = page_url || this.currentUrl + '/request/facilities/'+key+'/'+this.counts;
 
             axios.get(page_url)
             .then(response => {
-                this.users = response.data.data;
+                this.lists = response.data.data;
                 vm.makePagination(response.data.meta, response.data.links);
             })
             .catch(err => console.log(err));
@@ -143,29 +141,29 @@ export default {
             this.$refs.create.clear();
         },
 
-        edit(user){
+        edit(list){
             this.editable = true;
             $("#new").modal('show');
-            this.$refs.create.edit(user,true);
+            this.$refs.create.edit(list,true);
         },
 
-        updatestatus(user){
+        updaterooms(list){
             this.editable = true;
-            $("#updatestatus").modal('show');
-            this.$refs.status.set(user);
+            $("#rooms").modal('show');
+            this.$refs.rooms.set(list);
         },
 
-        message(user){
-            if(user){
+
+        message(list){
+            if(list){
                 if(this.editable == true){
-                    let index = this.users.findIndex(u => u.id === user.id);
-                    this.$set(this.users, index,   user);
+                    let index = this.lists.findIndex(u => u.id === list.id);
+                    this.$set(this.lists, index, list);
                     Vue.$toast.success('<strong>Successfully Updated</strong>', {
                         position: 'bottom-right'
                     });
                 }else{
-                    console.log(user);
-                    this.users.unshift(user);
+                    this.lists.unshift(list);
                     Vue.$toast.success('<strong>Successfully Created</strong>', {
                         position: 'bottom-right'
                     });

@@ -26,7 +26,6 @@ class UserController extends Controller
             if($request->editable){
                 $data = User::findOrFail($request->id);
                 $data->update($request->except('editable'));
-                $profile->update($request->except('email','type','is_active','editable'));
                 return $data;
             }else{
                 $data = User::create(array_merge($request->all(), ['password' => bcrypt('dost9ict')]));

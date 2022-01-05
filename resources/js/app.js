@@ -18,6 +18,7 @@ Vue.component('log-details', require('./components/Admin/Logs/Details.vue').defa
 
 Vue.component('facility-index', require('./components/Facility/Index.vue').default);
 Vue.component('facility-create', require('./components/Facility/Create.vue').default);
+Vue.component('facility-rooms', require('./components/Facility/Room.vue').default);
 
 
 Vue.use(VueRouter)

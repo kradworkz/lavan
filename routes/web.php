@@ -28,8 +28,10 @@ Route::prefix('request')->group(function(){
     Route::get('/users/{key}/{counts}', 'UserController@lists');
     Route::post('/user/store', 'UserController@store');
     Route::get('/user/logs/{key}/{counts}', 'UserController@myLogs');
-    
 
+    Route::get('/facilities/{key}/{counts}', 'FacilityController@lists');
+    Route::post('/facility/store', 'FacilityController@store');
+    Route::get('/rooms', 'FacilityController@fetchRooms');
 
 });
 
