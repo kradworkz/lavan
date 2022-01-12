@@ -68,7 +68,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._m(0), _vm._v(" "), _c("admin-dropdown")], 1)
+  return _c("div", [_vm._m(0), _vm._v(" "), _c("dropdown-index")], 1)
 }
 var staticRenderFns = [
   function () {

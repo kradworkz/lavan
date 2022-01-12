@@ -40,8 +40,9 @@
                             <tr>
                                 <th style="width: 2%;"></th>
                                 <th>Name</th>
-                                <th class="text-center">Availability</th>
-                                <th class="text-center">Type</th>
+                                <th class="text-center">Location</th>
+                                <th class="text-center">Vaccinated?</th>
+                                <th class="text-center">Created At</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -49,17 +50,24 @@
                             <tr v-for="list in lists" v-bind:key="list.id">
                                 <td>
                                     <div class="avatar-xs">
-                                        <span class="avatar-title rounded-circle">{{list.name.charAt(0)}}</span>
+                                        <span class="avatar-title rounded-circle">{{list.firstname.charAt(0)}}</span>
                                     </div>
                                 </td>
                                 <td>
-                                    <h5 class="font-size-13 mb-0 text-dark">{{list.name}}</h5>
-                                    <p class="font-size-12 text-muted mb-0">{{list.address}}</p>
+                                    <h5 class="font-size-12 mb-0 text-dark">{{list.lastname}}, {{list.firstname}} {{list.middlename}}.</h5>
+                                    <p class="font-size-12 text-muted mb-0">{{list.birthday}}</p>
                                 </td>
-                                <td class="text-center">{{list.available}} of {{list.beds}}</td>
-                                <td class="text-center">{{(list.is_main == 0) ? 'Barangay Isolation' : 'Main Isolation' }}</td>
+                                <td class="text-center">
+                                    <h5 class="font-size-12 mb-0 text-dark">{{list.mobile}}.</h5>
+                                    <p class="font-size-12 text-muted mb-0">{{list.address}}, {{list.barangay.name}}</p>
+                                </td>
+                                <td class="text-center">
+                                    <h5 class="font-size-12 mb-0 text-dark">{{list.vaccine}}</h5>
+                                    <p class="font-size-12 text-muted mb-0"> {{(list.is_vaccinated == 0) ? 'Not Vaccinated' : 'Vaccinated' }}</p>
+                                </td>
+                                <td class="text-center">{{ list.created_at }}</td>
                                 <td class="text-right">
-                                    <router-link :to="{ path: '/facility/'+list.id }" class="mr-3">
+                                    <router-link :to="{ path: '/patient/'+list.id }" class="mr-3">
                                         <i class='bx bx-user-circle'></i>
                                     </router-link>
                                     <a class="mr-3 text-warning" @click="edit(list)"><i class='bx bx-edit-alt' ></i></a>
@@ -75,12 +83,9 @@
     </div>
 
     <div class="modal fade exampleModal" id="new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <facility-create @status="message" ref="create"></facility-create>
+        <patient-create @status="message" ref="create"></patient-create>
     </div>
 
-    <div class="modal fade exampleModal" id="rooms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <facility-beds @status="message" ref="rooms"></facility-beds>
-    </div>
 </div>
 </template>
 
@@ -106,7 +111,7 @@ export default {
             return this.windowWidth;
         },
         counts: function(){
-            return Math.floor((this.height - 125) / 60);
+            return Math.floor((this.height - 125) / 54);
         }
     },
 
@@ -130,7 +135,7 @@ export default {
         fetch(page_url) {
             let vm = this; let key;
             (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
-            page_url = page_url || this.currentUrl + '/request/facilities/'+key+'/'+this.counts;
+            page_url = page_url || this.currentUrl + '/request/patients/'+key+'/'+this.counts;
 
             axios.get(page_url)
             .then(response => {

@@ -1,8 +1,8 @@
 <template>
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Facility Information</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Dropdown Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -20,37 +20,26 @@
                                         <input type="text" class="form-control" v-model="name" style="text-transform: capitalize;">
                                     </div>
                                 </div>
-                                <div class="col-md-6" style="margin-top: -7px;">
+                                <div class="col-md-12" style="margin-top: -7px;">
                                     <div class="form-group">
-                                        <label>Address: <span v-if="errors.address" class="haveerror">({{ errors.address[0] }})</span></label>
-                                        <input type="text" class="form-control" v-model="address" style="text-transform: capitalize;">
+                                        <label>Color: <span v-if="errors.color" class="haveerror">({{ errors.color[0] }})</span></label>
+                                        <input type="text" class="form-control" v-model="color" style="text-transform: lowercase;">
                                     </div>
                                 </div>
-                                <div class="col-md-6" style="margin-top: -7px;">
+                                <div class="col-md-12" style="margin-top: -7px;">
                                     <div class="form-group">
-                                        <label>Barangay: <span v-if="errors.barangay_id" class="haveerror">({{ errors.barangay_id[0] }})</span></label>
+                                        <label>Type: <span v-if="errors.type" class="haveerror">({{ errors.type[0] }})</span></label>
                                           <multiselect 
-                                            v-model="barangay_id" 
-                                            :options="barangays"
+                                            v-model="type" 
+                                            :options="roles"
                                             :allow-empty="false"
                                             :show-labels="false"
-                                             label="name" track-by="id" 
-                                            placeholder="Select Barangay">
+                                            placeholder="Select Type">
                                         </multiselect>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                        <i class="mdi mdi-alert-outline mr-2"></i>
-                                        <div class="form-group" style="margin-top:-20px; margin-bottom: 2px;">         
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" v-model="is_main" class="custom-control-input" id="formrow-customCheck">
-                                                <label class="custom-control-label font-size-12" for="formrow-customCheck">Is this a <b>Main Isolation Facility?</b>?</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                                                                            
+
+                                                            
                             </div>
                         </div>
                     </div>
@@ -71,36 +60,29 @@
     import Loading from 'vue-loading-overlay';
     import Multiselect from 'vue-multiselect';
     export default {
-        props : ['type'],
         data(){
             return {
                 currentUrl: window.location.origin,
                 errors: [], 
                 id: '',
                 name: '',
-                address: '',
-                barangay_id: '',
-                is_main: false,
-                barangays: [],
+                color: '',
+                type: '',
+                roles: ['Status','Category'],
                 editable: false,
                 isLoading: false,
                 fullPage: true
             }
         },
-
-        created(){
-            this.barangays = window.Barangays;
-        },
         
         methods : {
             create(){
                 this.isLoading = true;
-                axios.post(this.currentUrl + '/request/facility/store', {
+                axios.post(this.currentUrl + '/request/dropdown/store', {
                     id: this.id,
                     name: this.name,
-                    address: this.address,
-                    barangay_id: this.barangay_id.id,
-                    is_main: this.is_main,
+                    color: this.color,
+                    type: this.type,
                     editable: this.editable
                 })
                 .then(response => {
@@ -111,37 +93,26 @@
                 .catch(error => {
                     if (error.response.status == 422) {
                         this.errors = error.response.data.errors;
-                        this.isLoading = false;
-                    }else{
-                        this.isLoading = false;
-                        Vue.$toast.error('<strong>Please contact Administrator</strong>', {
-                            position: 'bottom-right'
-                        });
+                         this.isLoading = false;
                     }
                 });
             },
 
             edit(list,editable){
-                this.id = list.id;
                 this.name = list.name;
-                this.address = list.address;
-                this.barangay_id = list.barangay;
-                this.is_main = list.is_main;
+                this.color = list.color;
+                this.type = list.type;
                 this.editable = editable;
             },
 
             clear(){
                 this.editable = false;
                 $("#new").modal("hide");
-                this.name = '';
-                this.address = '';
-                this.is_main = false;
                 this.errors = [];
+                this.name = '';
+                this.color = '';
+                this.type = '';
             },
-
-            add(){
-
-            }
 
         }, components: { Multiselect, Loading }
     }

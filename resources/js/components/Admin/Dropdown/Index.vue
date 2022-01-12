@@ -17,9 +17,7 @@
                     </div>
                     <div class="col-xl-6 col-sm-6">
                         <ul class="list-inline user-chat-nav text-right mb-0 dropdown">
-                           <li class="list-inline-item d-none d-sm-inline-block font-size-12">
-                                {{(pagination.current_page == 1) ? '1' : ((pagination.current_page -1) * pagination.per_page) + 1 }}-{{(pagination.last_page == pagination.current_page) ? pagination.total : pagination.current_page * pagination.per_page }} of {{pagination.total}}
-                            </li>
+                            <li class="list-inline-item d-none d-sm-inline-block font-size-12">{{pagination.current_page}} out of {{pagination.last_page}}</li>
                             <li class="list-inline-item d-none d-sm-inline-block">
                                 <a class="btn nav-btn" v-bind:class="[{disabled: !pagination.prev_page_url}]" @click="fetch(pagination.prev_page_url)">
                                     <i class='bx bxs-chevron-left font-size-16'></i>
@@ -29,6 +27,15 @@
                                 <a class="btn nav-btn" v-bind:class="[{disabled: !pagination.next_page_url}]" @click="fetch(pagination.next_page_url)">
                                     <i class='bx bxs-chevron-right font-size-16'></i>
                                 </a>
+                            </li>
+                            <li class="list-inline-item d-non d-sm-inline-block">
+                                <div class="dropdown">
+                                    <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-light" style="margin-right: -5px;"><span class="d-none d-sm-inline-block"> <i class='bx bx-category'></i></span></button>                                 
+                                    <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <a @click="filter('Status')" class="dropdown-item">Status</a>
+                                        <a @click="filter('Category')" class="dropdown-item">Category</a>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -40,9 +47,9 @@
                             <tr>
                                 <th style="width: 2%;"></th>
                                 <th>Name</th>
-                                <th class="text-center">Availability</th>
+                                <th class="text-center">Color</th>
                                 <th class="text-center">Type</th>
-                                <th></th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,15 +60,11 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h5 class="font-size-13 mb-0 text-dark">{{list.name}}</h5>
-                                    <p class="font-size-12 text-muted mb-0">{{list.address}}</p>
+                                    <h5 class="font-size-13 mb-1 text-dark">{{list.name}}</h5>
                                 </td>
-                                <td class="text-center">{{list.available}} of {{list.beds}}</td>
-                                <td class="text-center">{{(list.is_main == 0) ? 'Barangay Isolation' : 'Main Isolation' }}</td>
-                                <td class="text-right">
-                                    <router-link :to="{ path: '/facility/'+list.id }" class="mr-3">
-                                        <i class='bx bx-user-circle'></i>
-                                    </router-link>
+                                <td class="text-center"> {{list.color}} </td>
+                                <td class="text-center"> {{list.type}} </td>
+                                <td class="text-center">
                                     <a class="mr-3 text-warning" @click="edit(list)"><i class='bx bx-edit-alt' ></i></a>
                                     <a class="text-danger"><i class='bx bx-trash'></i></a>
                                 </td>
@@ -75,11 +78,7 @@
     </div>
 
     <div class="modal fade exampleModal" id="new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <facility-create @status="message" ref="create"></facility-create>
-    </div>
-
-    <div class="modal fade exampleModal" id="rooms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <facility-beds @status="message" ref="rooms"></facility-beds>
+        <dropdown-create @status="message" ref="create"></dropdown-create>
     </div>
 </div>
 </template>
@@ -95,18 +94,19 @@ export default {
             pagination: {},
             keyword: '',
             lists : [],
+            type: 'Status'
         }
     },
 
     computed : {
         height: function() {
-            return this.windowHeight -190;
+            return this.windowHeight -180;
         },
         width: function() {
             return this.windowWidth;
         },
         counts: function(){
-            return Math.floor((this.height - 125) / 60);
+            return Math.floor((this.height - 125) / 54);
         }
     },
 
@@ -120,9 +120,7 @@ export default {
                 current_page: meta.current_page,
                 last_page: meta.last_page,
                 next_page_url: links.next,
-                prev_page_url: links.prev,
-                total: meta.total,
-                per_page: meta.per_page
+                prev_page_url: links.prev
             };
             this.pagination = pagination;
         },
@@ -130,7 +128,7 @@ export default {
         fetch(page_url) {
             let vm = this; let key;
             (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
-            page_url = page_url || this.currentUrl + '/request/facilities/'+key+'/'+this.counts;
+            page_url = page_url || this.currentUrl + '/request/dropdowns/'+this.type+'/'+key+'/'+this.counts;
 
             axios.get(page_url)
             .then(response => {
@@ -145,10 +143,10 @@ export default {
             this.$refs.create.clear();
         },
 
-        edit(list){
+        edit(user){
             this.editable = true;
             $("#new").modal('show');
-            this.$refs.create.edit(list,true);
+            this.$refs.create.edit(user,true);
         },
 
         message(list){
@@ -168,7 +166,14 @@ export default {
                 $("#new").modal('hide');
                 this.editable = false;
             }
-        }
+        },
+
+        filter(type){
+            this.type = type;
+            let vm = this; let key;
+            (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
+            this.fetch(this.currentUrl + '/request/dropdowns/'+this.type+'/'+key+'/'+this.counts);
+        },
     }, 
 }
 </script>

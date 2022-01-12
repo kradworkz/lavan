@@ -103,7 +103,7 @@ export default {
 
     computed : {
         height: function() {
-            return this.windowHeight -170;
+            return this.windowHeight -180;
         },
         width: function() {
             return this.windowWidth;

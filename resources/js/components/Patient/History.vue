@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Facility Information</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Medical Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -10,47 +10,55 @@
             
             <form @submit.prevent="create">
                 <div class="modal-body">
-                    
                     <div class="row customerform" style="margin-right: 10px; margin-left: 10px;">
                         <div class="col-md-12 customerform" style="margin-top: 20px;">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6" style="margin-top: -10px;">
                                     <div class="form-group">
-                                        <label>Name: <span v-if="errors.name" class="haveerror">({{ errors.name[0] }})</span></label>
-                                        <input type="text" class="form-control" v-model="name" style="text-transform: capitalize;">
-                                    </div>
-                                </div>
-                                <div class="col-md-6" style="margin-top: -7px;">
-                                    <div class="form-group">
-                                        <label>Address: <span v-if="errors.address" class="haveerror">({{ errors.address[0] }})</span></label>
-                                        <input type="text" class="form-control" v-model="address" style="text-transform: capitalize;">
-                                    </div>
-                                </div>
-                                <div class="col-md-6" style="margin-top: -7px;">
-                                    <div class="form-group">
-                                        <label>Barangay: <span v-if="errors.barangay_id" class="haveerror">({{ errors.barangay_id[0] }})</span></label>
+                                        <label>Category: <span v-if="errors.category_id" class="haveerror">({{ errors.category_id[0] }})</span></label>
                                           <multiselect 
-                                            v-model="barangay_id" 
-                                            :options="barangays"
+                                            v-model="category_id" 
+                                            :options="categories"
                                             :allow-empty="false"
                                             :show-labels="false"
                                              label="name" track-by="id" 
-                                            placeholder="Select Barangay">
+                                            placeholder="Select Category">
                                         </multiselect>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                        <i class="mdi mdi-alert-outline mr-2"></i>
-                                        <div class="form-group" style="margin-top:-20px; margin-bottom: 2px;">         
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" v-model="is_main" class="custom-control-input" id="formrow-customCheck">
-                                                <label class="custom-control-label font-size-12" for="formrow-customCheck">Is this a <b>Main Isolation Facility?</b>?</label>
-                                            </div>
-                                        </div>
+                                <div class="col-md-6" style="margin-top: -10px;">
+                                    <div class="form-group">
+                                        <label>Exit Port: <span v-if="errors.exit_port" class="haveerror">({{ errors.exit_port[0] }})</span></label>
+                                        <input type="text" class="form-control" v-model="exit_port">
                                     </div>
                                 </div>
-                                                                                            
+                                <div class="col-md-6" style="margin-top: -10px;">
+                                    <div class="form-group">
+                                        <label>Arrived At: <span v-if="errors.arrived_at" class="haveerror">({{ errors.arrived_at[0] }})</span></label>
+                                        <input type="date" class="form-control" v-model="arrived_at">
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="margin-top: -10px;">
+                                    <div class="form-group">
+                                        <label>Completion At: <span v-if="errors.completion_at" class="haveerror">({{ errors.completion_at[0] }})</span></label>
+                                        <input type="date" class="form-control" v-model="completion_at">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12" style="margin-top: -10px;">
+                                    <div class="form-group">
+                                        <label>Facility: <span v-if="errors.facility_id" class="haveerror">({{ errors.facility_id[0] }})</span></label>
+                                          <multiselect 
+                                            v-model="facility_id" 
+                                            :options="facilities"
+                                            :allow-empty="false"
+                                            :show-labels="false"
+                                             label="name" track-by="id" 
+                                            placeholder="Select Facility">
+                                        </multiselect>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -71,37 +79,43 @@
     import Loading from 'vue-loading-overlay';
     import Multiselect from 'vue-multiselect';
     export default {
-        props : ['type'],
+        props : ['id'],
         data(){
             return {
                 currentUrl: window.location.origin,
                 errors: [], 
-                id: '',
-                name: '',
-                address: '',
-                barangay_id: '',
-                is_main: false,
-                barangays: [],
+                categories: [],
+                beds: [],
+                facilities: [],
+                completion_at: '', 
+                arrived_at: '', 
+                bed: '',
+                exit_port: '',
+                category_id: '',
+                facility_id: '',
                 editable: false,
                 isLoading: false,
-                fullPage: true
+                fullPage: true,
+                count : ''
             }
         },
 
         created(){
-            this.barangays = window.Barangays;
+            this.fetchCategory();
+            this.fetchA
         },
-        
+
         methods : {
+            set(count){
+                this.count = count;
+                this.add();
+            },
+
             create(){
                 this.isLoading = true;
-                axios.post(this.currentUrl + '/request/facility/store', {
+                axios.post(this.currentUrl + '/request/bed/store', {
                     id: this.id,
-                    name: this.name,
-                    address: this.address,
-                    barangay_id: this.barangay_id.id,
-                    is_main: this.is_main,
-                    editable: this.editable
+                    lists: this.lists
                 })
                 .then(response => {
                     this.$emit('status', response.data.data);
@@ -139,9 +153,16 @@
                 this.errors = [];
             },
 
-            add(){
+            add() {
+                this.count = this.count + 1;
+                this.lists.push({floor: this.count})
+            },
 
-            }
+            del(index) {
+                if(this.lists.length > 1){
+                    this.lists.splice(index, 1);
+                }
+            },
 
         }, components: { Multiselect, Loading }
     }

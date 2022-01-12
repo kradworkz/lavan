@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        \Schema::defaultStringLength(191);
+        
         \Validator::extend('image64', function ($attribute, $value, $parameters, $validator) {
             if($value != null){
                 $type = explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];

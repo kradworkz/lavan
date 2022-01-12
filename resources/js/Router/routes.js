@@ -4,6 +4,12 @@ const routes = [{
         name: 'home'
     },
     {
+        path: '/admission',
+        component: () => import('../Pages/Admission.vue'),
+        name: 'admission',
+        beforeEnter: admin
+    },
+    {
         path: '/user',
         component: () => import('../Pages/User.vue'),
         name: 'user',
@@ -15,6 +21,12 @@ const routes = [{
         name: 'logs',
         beforeEnter: admin
     },
+    {
+        path: '/dropdowns',
+        component: () => import('../Pages/Dropdown.vue'),
+        name: 'dropdowns',
+        beforeEnter: admin
+    },
 
     // Main Iso
 
@@ -24,6 +36,32 @@ const routes = [{
         name: 'facilities',
         beforeEnter: admin
     },
+    {
+        path: '/facility/:id',
+        component: () => import('../Pages/Room.vue'),
+        name: 'facility/profile',
+        beforeEnter: admin
+    },
+    {
+        path: '/patients',
+        component: () => import('../Pages/Patient.vue'),
+        name: 'patients',
+        beforeEnter: admin
+    },
+    {
+        path: '/patient/:id',
+        component: () => import('../Pages/Profile.vue'),
+        name: 'patient/profile',
+        beforeEnter: admin
+    },
+
+    {
+        path: '/laptop/list',
+        component: () => import('../Pages/Laptop/Index.vue'),
+        name: 'laptop/list',
+        beforeEnter: admin
+    },
+   
 
 ];
 

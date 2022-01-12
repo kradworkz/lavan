@@ -16,7 +16,6 @@ class CreatePatientsTable extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('avatar');
             $table->string('mobile')->unique();
             $table->string('firstname',150);
             $table->string('lastname',150);
@@ -24,9 +23,11 @@ class CreatePatientsTable extends Migration
             $table->string('suffix',10)->nullable();
             $table->string('gender',8);
             $table->date('birthday');
+            $table->string('address');
+            $table->integer('barangay_id')->unsigned()->index();
+            $table->foreign('barangay_id')->references('id')->on('barangays')->onDelete('cascade');
             $table->boolean('is_vaccinated')->default(0);
-            $table->smallInteger('profile_id')->unsigned()->index();
-            $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
+            $table->string('vaccine')->default('n/a');
             $table->timestamps();
         });
     }

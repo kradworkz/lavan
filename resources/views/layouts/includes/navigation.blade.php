@@ -11,15 +11,33 @@
                 </li>
                 @if(Auth::user()->type == "Administrator")
                 <li>
-                    <router-link :to="{ name: 'user' }" class="waves-effect">
-                        <i class="bx bxs-user-circle"></i>
-                        <span key="t-dashboards">User</span>
+                    <router-link :to="{ name: 'admission' }" class="waves-effect">
+                        <i class="bx bxs-capsule"></i>
+                        <span key="t-dashboards">Admission</span>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link :to="{ name: 'patients' }" class="waves-effect">
+                        <i class="bx bx-user-circle"></i>
+                        <span key="t-dashboards">Patients</span>
                     </router-link>
                 </li>
                 <li>
                     <router-link :to="{ name: 'facilities' }" class="waves-effect">
                         <i class="bx bx-buildings"></i>
                         <span key="t-dashboards">Facilities</span>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link :to="{ name: 'user' }" class="waves-effect">
+                        <i class="bx bxs-user-circle"></i>
+                        <span key="t-dashboards">User</span>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link :to="{ name: 'dropdowns' }" class="waves-effect">
+                        <i class="bx bx-category"></i>
+                        <span key="t-dashboards">Dropdowns</span>
                     </router-link>
                 </li>
                 <li>

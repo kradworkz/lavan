@@ -44,9 +44,7 @@
             }
         },
 
-        created(){
-            this.fetch();
-        },
+       
 
         methods : {
             set(list){

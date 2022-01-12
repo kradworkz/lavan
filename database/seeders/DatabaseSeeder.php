@@ -28,5 +28,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(BarangayTableSeeder::class);
 
+        $this->call(FacilitiesTableSeeder::class);
+        $this->call(BedsTableSeeder::class);
+        $this->call(DropdownsTableSeeder::class);
     }
 }

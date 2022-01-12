@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PatientHistory extends Model
+class PatientAdmission extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,6 @@ class PatientHistory extends Model
         'exit_port',
         'arrived_at', 
         'completion_at', 
-        'category_id',
         'bed_id',
         'patient_id',
         'status_id',
@@ -24,11 +23,6 @@ class PatientHistory extends Model
     public function status()
     {
         return $this->belongsTo('App\Models\Dropdown', 'status_id', 'id');
-    }
-
-    public function category()
-    {
-        return $this->belongsTo('App\Models\Dropdown', 'category_id', 'id');
     }
 
     public function patient()
