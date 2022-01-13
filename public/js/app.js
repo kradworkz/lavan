@@ -2663,21 +2663,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -44590,7 +44575,7 @@ var render = function () {
               ]),
             ]),
             _vm._v(" "),
-            _vm._m(2),
+            _c("div", { staticClass: "col-lg-7 col-sm-6 align-self-center" }),
           ]),
         ]),
       ]),
@@ -44627,63 +44612,6 @@ var staticRenderFns = [
         _c("option", { attrs: { value: "3" } }, [_vm._v("January")]),
         _vm._v(" "),
         _c("option", { attrs: { value: "4" } }, [_vm._v("December")]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-lg-7 col-sm-6 align-self-center" }, [
-      _c("div", [
-        _c("p", { staticClass: "mb-2" }, [
-          _c("i", {
-            staticClass:
-              "mdi mdi-circle align-middle font-size-10 mr-2 text-primary",
-          }),
-          _vm._v(" Ethereum"),
-        ]),
-        _vm._v(" "),
-        _c("h5", [
-          _vm._v("4.5701 ETH = "),
-          _c("span", { staticClass: "text-muted font-size-14" }, [
-            _vm._v("$ 1123.64"),
-          ]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mt-4 pt-2" }, [
-        _c("p", { staticClass: "mb-2" }, [
-          _c("i", {
-            staticClass:
-              "mdi mdi-circle align-middle font-size-10 mr-2 text-warning",
-          }),
-          _vm._v(" Bitcoin"),
-        ]),
-        _vm._v(" "),
-        _c("h5", [
-          _vm._v("0.4412 BTC = "),
-          _c("span", { staticClass: "text-muted font-size-14" }, [
-            _vm._v("$ 4025.32"),
-          ]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mt-4 pt-2" }, [
-        _c("p", { staticClass: "mb-2" }, [
-          _c("i", {
-            staticClass:
-              "mdi mdi-circle align-middle font-size-10 mr-2 text-info",
-          }),
-          _vm._v(" Litecoin"),
-        ]),
-        _vm._v(" "),
-        _c("h5", [
-          _vm._v("35.3811 LTC = "),
-          _c("span", { staticClass: "text-muted font-size-14" }, [
-            _vm._v("$ 2263.09"),
-          ]),
-        ]),
       ]),
     ])
   },

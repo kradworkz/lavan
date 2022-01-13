@@ -155,27 +155,12 @@
                                     </div>
                                 </div>
                             </div>
-                         
-
                         </div>
                     </div>
 
 
                     <div class="col-lg-7 col-sm-6 align-self-center">
-                        <div>
-                            <p class="mb-2"><i class="mdi mdi-circle align-middle font-size-10 mr-2 text-primary"></i> Ethereum</p>
-                            <h5>4.5701 ETH = <span class="text-muted font-size-14">$ 1123.64</span></h5>
-                        </div>
-
-                        <div class="mt-4 pt-2">
-                            <p class="mb-2"><i class="mdi mdi-circle align-middle font-size-10 mr-2 text-warning"></i> Bitcoin</p>
-                            <h5>0.4412 BTC = <span class="text-muted font-size-14">$ 4025.32</span></h5>
-                        </div>
-
-                        <div class="mt-4 pt-2">
-                            <p class="mb-2"><i class="mdi mdi-circle align-middle font-size-10 mr-2 text-info"></i> Litecoin</p>
-                            <h5>35.3811 LTC = <span class="text-muted font-size-14">$ 2263.09</span></h5>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
