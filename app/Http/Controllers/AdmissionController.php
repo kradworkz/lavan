@@ -44,7 +44,12 @@ class AdmissionController extends Controller
     }
 
     public function checkout(Request $request){
-        $data = PatientAdmission::where('id',$request->id)->update(['is_released' => 1]);
+        $data = PatientAdmission::where('id',$request->id)->first();
+        ($data->status_id == 1) ? $data->status_id = 2 : '';
+        $data->is_released = 1;
+        if($data->save()){
+            $bed = Bed::where('id',$data->bed_id)->update(['is_available' => 1]);
+        }
         return $request->id;
     }
 }

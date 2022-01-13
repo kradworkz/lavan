@@ -47838,24 +47838,26 @@ var render = function () {
                           ]),
                           _vm._v(" "),
                           _c("td", { staticClass: "text-right" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "btn btn-light waves-effect waves-light mr-2",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function ($event) {
-                                    return _vm.result(list)
+                            list.is_positive == null
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-light waves-effect waves-light mr-2",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.result(list)
+                                      },
+                                    },
                                   },
-                                },
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "text-danger bx bxs-virus",
-                                }),
-                              ]
-                            ),
+                                  [
+                                    _c("i", {
+                                      staticClass: "text-danger bx bxs-virus",
+                                    }),
+                                  ]
+                                )
+                              : _vm._e(),
                             _vm._v(" "),
                             _c(
                               "button",
