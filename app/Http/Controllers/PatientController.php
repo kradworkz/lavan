@@ -37,7 +37,7 @@ class PatientController extends Controller
     }
 
     public function view($id){
-        $data = Patient::with('histories')->with('barangay')->where('id',$id)->first();
+        $data = Patient::with('histories','histories.facility','histories.status')->with('barangay')->where('id',$id)->first();
         return new PatientResource($data);
     }
 

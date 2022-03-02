@@ -16,6 +16,12 @@
                         <span key="t-dashboards">Admission</span>
                     </router-link>
                 </li>
+                <!-- <li>
+                    <router-link :to="{ name: 'tests' }" class="waves-effect">
+                        <i class='bx bxs-vial' ></i>
+                        <span key="t-dashboards">Tests</span>
+                    </router-link>
+                </li> -->
                 <li>
                     <router-link :to="{ name: 'patients' }" class="waves-effect">
                         <i class="bx bx-user-circle"></i>

@@ -56,7 +56,7 @@ class StatisticController extends Controller
     }
 
     public function cases(){
-        $statuses = Dropdown::where('type','Status')->orderBy('id','ASC')->get();
+        $statuses = Dropdown::where('type','Status')->where('name','!=','Cleared')->orderBy('id','ASC')->get();
         $icons = ['bx bxs-virus','bx bxs-virus-block', 'bx bxs-ghost'];
         $array = [];
         foreach($statuses as $index => $status){

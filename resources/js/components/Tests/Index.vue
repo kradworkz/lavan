@@ -47,8 +47,7 @@
                     <table class="table table-centered table-nowrap">
                         <thead class="thead-light">
                             <tr class="font-size-11">
-                                <th class="text-center" style="font-size: 7px; width: 1%;">ANTIGEN</th>
-                                <th class="text-center" style="font-size: 7px; width: 1%;">RTCPR</th>
+                                <th style="width: 2%;"></th>
                                 <th>Name</th>
                                 <th class="text-center">Facility</th>
                                 <th class="text-center">Port of Exit</th>
@@ -59,15 +58,10 @@
                         </thead>
                         <tbody>
                             <tr v-for="list in lists" v-bind:key="list.id" :class="[(list.status.name == 'Active') ? 'bg-soft-warning' : '']">
-                                <td class="text-center">
-                                    <i v-if="list.tests.length == 0" class='bx bx-circle h3'></i>
-                                    <i v-else-if="list.tests.length == 1" class='bx bxs-minus-circle h3'></i>
-                                    <i v-else class='bx bxs-plus-circle h3'></i>
-                                </td>
-                                <td class="text-center">
-                                   <i v-if="list.tests.length == 0" class='bx bx-circle h3'></i>
-                                    <i v-else-if="list.tests.length == 1" class='bx bxs-minus-circle h3'></i>
-                                    <i v-else class='bx bxs-plus-circle h3'></i>
+                                <td>
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title rounded-circle">{{list.patient_name.charAt(0)}}</span>
+                                    </div>
                                 </td>
                                 <td>
                                     <h5 class="font-size-12 mb-0 text-dark">{{list.patient_name}}</h5>
@@ -75,7 +69,7 @@
                                 </td>
                                 <td class="text-center">
                                     
-                                    <h5 v-if="list.is_home == 0" class="text-danger font-size-12 mb-0 font-weight-bold">Floor {{list.facility.bed.floor}} - Bed {{list.facility.bed.name}}</h5>
+                                    <h5 v-if="list.is_home == 0" class="font-size-12 mb-0 text-dark">Floor {{list.facility.bed.floor}} - Bed {{list.facility.bed.name}}</h5>
                                     <p v-if="list.is_home == 0" class="font-size-12 text-muted mb-0">{{list.facility.bed.facility.name}}</p>
                                     <span v-else class="text-info font-weight-bold font-size-12">Home Quarantine</span>
                                 </td>

@@ -16,15 +16,17 @@ class AdmissionResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'is_home' => $this->is_home,
             'exit_port' => $this->exit_port,
-            'arrived_at' => $this->arrived_at,
+            'started_at' => $this->started_at,
             'completion_at' => $this->completion_at,
             'status' => $this->status,
-            'bed' => $this->bed,
+            'facility' => $this->facility,
             'patient_name' => $this->patient->lastname.', '.$this->patient->firstname.' '.$this->patient->middlename.'.',
             'patient_address' => $this->patient->address,
             'is_released' => $this->is_released,
             'is_positive' => $this->is_positive,
+            'tests' => $this->tests,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

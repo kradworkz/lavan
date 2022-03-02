@@ -9,8 +9,6 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 import VueRouter from 'vue-router';
 
-Vue.component('laptop-create', require('./Pages/Laptop/Create.vue').default);
-
 Vue.component('home-index', require('./components/Admin/Home/Index.vue').default);
 
 Vue.component('dropdown-index', require('./components/Admin/Dropdown/Index.vue').default);
@@ -39,6 +37,8 @@ Vue.component('admission-check', require('./components/Admission/Checkin.vue').d
 Vue.component('admission-checkout', require('./components/Admission/Checkout.vue').default);
 Vue.component('admission-result', require('./components/Admission/Result.vue').default);
 
+Vue.component('tests-index', require('./components/Tests/Index.vue').default);
+
 Vue.use(VueRouter)
 import VueToast from 'vue-toast-notification';
 Vue.use(VueToast);
@@ -46,20 +46,20 @@ Vue.use(VueToast);
 import router from './Router/index';
 
 const app = new Vue({
-    data: { 
+    data: {
         currentUrl: window.location.origin,
         windowHeight: window.innerHeight,
         windowWidth: window.innerWidth,
     },
-    
-    computed : {
+
+    computed: {
         height: function() {
             return this.windowHeight - 170;
         },
         width: function() {
             return this.windowWidth;
         },
-        counts: function(){
+        counts: function() {
             return Math.floor((this.height - 175) / 54);
         }
     },
@@ -71,7 +71,7 @@ const app = new Vue({
 //     app.loading = true
 //     next()
 // });
-  
+
 // router.afterEach(() => {
 //     setTimeout(() => app.loading = false, 1000) // timeout for demo purposes
 // });

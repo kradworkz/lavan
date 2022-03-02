@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\WelcomeController;
 |
 */
 
+Route::get('/sms', 'HomeController@test');
 
 Auth::routes(['register' => false]);
 

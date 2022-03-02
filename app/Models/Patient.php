@@ -24,11 +24,6 @@ class Patient extends Model
         'vaccine'
     ];
 
-    
-    public function getFirstnameAttribute($value){
-        return ucwords($value);
-    }
-
     public function histories()
     {
         return $this->hasMany('App\Models\PatientAdmission', 'patient_id');
@@ -38,11 +33,15 @@ class Patient extends Model
     {
         return $this->belongsTo('App\Models\Barangay', 'barangay_id', 'id');
     }
-
-    public function getBirthdayAttribute($value)
-    {
-        return date('M d, Y', strtotime($value));
+    
+    public function getFirstnameAttribute($value){
+        return ucwords($value);
     }
+
+    // public function getBirthdayAttribute($value)
+    // {
+    //     return date('M d, Y', strtotime($value));
+    // }
 
     public function getMiddlenameAttribute($value){
         return ucwords($value);

@@ -58,8 +58,8 @@
                                 <td>
                                    <span class="text-muted font-weight-bold">Total : </span>
                                 </td>
-                                <td class="text-right">
-                                    
+                                <td class="text-right font-size-18 font-weight-bold">
+                                    {{ totalIso}}
                                 </td>
                             </tr>
                         </tbody>
@@ -199,7 +199,16 @@ export default {
         },
         counts: function(){
             return Math.floor((this.height - 125) / 54);
-        }
+        },
+        totalIso: function () {
+            var sum = 0;
+            if(this.category != undefined){
+                this.category.forEach(e => {
+                    sum += Number(e.count);
+                });
+            }
+            return sum
+        },
     },
 
     created(){;

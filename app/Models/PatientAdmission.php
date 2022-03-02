@@ -11,9 +11,9 @@ class PatientAdmission extends Model
 
     protected $fillable = [
         'exit_port',
-        'arrived_at', 
+        'started_at', 
         'completion_at', 
-        'bed_id',
+        'is_home',
         'patient_id',
         'status_id',
         'is_released',
@@ -30,17 +30,22 @@ class PatientAdmission extends Model
         return $this->belongsTo('App\Models\Patient', 'patient_id', 'id');
     }
 
-    public function bed()
+    public function facility()
     {
-        return $this->belongsTo('App\Models\Bed', 'bed_id', 'id');
-    }
+        return $this->hasOne('App\Models\PatientAdmissionFacility', 'admission_id');
+    } 
+
+    public function tests()
+    {
+        return $this->hasMany('App\Models\PatientAdmissionTest', 'admission_id');
+    } 
 
     public function getExitPortAttribute($value){
         return ucwords(strtolower($value));
     }
 
 
-    public function getArrivedAtAttribute($value)
+    public function getStartedAtAttribute($value)
     {
         return date('M d, Y', strtotime($value));
     }

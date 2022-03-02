@@ -33,8 +33,8 @@ class PatientRequest extends FormRequest
             'mobile' => 'sometimes|required|unique:patients,mobile,'.$this->id,
             'address' => 'sometimes|required',
             'barangay_id' => 'sometimes|required',
-            'is_vaccinated' => 'sometimes|required',
-            'vaccine' => 'sometimes|nullable'
+            'is_vaccinated' => 'nullable',
+            'vaccine' => 'required_if:is_vaccinated,==,true'
         ];
     }
 

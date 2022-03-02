@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Models\ListExpense;
-use Illuminate\Http\Request;
-use App\Exports\EntryExport;
-use App\Imports\ScholarImport;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Traits\BarangayTrait;
+use App\Services\SMSGateway;
+use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 
 class HomeController extends Controller
@@ -40,6 +37,13 @@ class HomeController extends Controller
         }else{
             return view('user_admin.index');    
         }
+    }
+
+    public function test(SMSGateway $sms)
+    {
+        $message = 'Shane Doe';
+        $phone = '09977914012';
+        $sms->sendSMS($message,$phone);
     }
 
 }

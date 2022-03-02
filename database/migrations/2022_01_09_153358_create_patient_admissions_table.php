@@ -18,13 +18,12 @@ class CreatePatientAdmissionsTable extends Migration
             $table->increments('id');
             $table->string('exit_port');
             $table->boolean('is_positive')->nullable();
-            $table->date('arrived_at');
+            $table->boolean('is_home')->default(1);
+            $table->date('started_at');
             $table->date('completion_at');
             $table->boolean('is_released')->default(0);
             $table->tinyInteger('status_id')->unsigned()->index()->nullable();
             $table->foreign('status_id')->references('id')->on('dropdowns')->onDelete('cascade');
-            $table->smallInteger('bed_id')->unsigned()->index()->nullable();
-            $table->foreign('bed_id')->references('id')->on('beds')->onDelete('cascade');
             $table->integer('patient_id')->unsigned()->index();
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->timestamps();

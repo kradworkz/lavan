@@ -189,8 +189,8 @@
                                 </div>
                                 <div class="col-md-6" style="margin-top: -13px;">
                                     <div class="form-group">
-                                        <label>Arrived At: <span v-if="errors.arrived_at" class="haveerror">({{ errors.arrived_at[0] }})</span></label>
-                                        <input type="date" class="form-control" v-model="admit.arrived_at">
+                                        <label>Start At: <span v-if="errors.started_at" class="haveerror">({{ errors.started_at[0] }})</span></label>
+                                        <input type="date" class="form-control" v-model="admit.started_at">
                                     </div>
                                 </div>
                                 <div class="col-md-6" style="margin-top: -13px;">
@@ -199,8 +199,43 @@
                                         <input type="date" class="form-control" v-model="admit.completion_at">
                                     </div>
                                 </div>
+
+                                 <!-- <div class="col-md-12 row justify-content-center mt-4 mb-4">
+                                    <div class="col-xl-6">
+                                        <label class="card-radio-label mb-3">
+                                            <input type="radio" v-model="is_home" value="1" class="card-radio-input">
+                                            <div class="card-radio">
+                                                <i class="bx bx-home font-size-24 text-primary align-middle mr-2"></i>
+                                                <span>Home Quarantine</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label class="card-radio-label mb-3">
+                                            <input type="radio" v-model="is_home" value="0" class="card-radio-input">
+                                            <div class="card-radio">
+                                                <i class="bx bx-building font-size-24 text-primary align-middle mr-2"></i>
+                                                <span>Facility Quarantine</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div> -->
+                                <div class="col-md-12" style="margin-top: -10px;"><hr></div>
                                 
-                                <div class="col-md-6" style="margin-top: -13px;">
+                                <div class="col-md-6 mt-0 mb-2">
+                                    <div class="custom-control custom-radio mb-3">
+                                        <input type="radio" id="customRadio2" class="custom-control-input" checked="checked" value="0" v-model="admit.is_home">
+                                        <label class="custom-control-label font-size-12" for="customRadio2">Facility Quarantine</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-0 mb-2">
+                                    <div class="custom-control custom-radio mb-3">
+                                        <input type="radio" id="customRadio1" class="custom-control-input" checked="checked" value="1" v-model="admit.is_home">
+                                        <label class="custom-control-label font-size-12" for="customRadio1">Home Quarantine</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6" style="margin-top: -13px;" v-if="admit.is_home == 0 && admit.is_home != ''">
                                     <div class="form-group">
                                         <label>Facility: <span v-if="errors.facility_id" class="haveerror">({{ errors.facility_id[0] }})</span></label>
                                             <multiselect 
@@ -216,7 +251,7 @@
                                         </multiselect>
                                     </div>
                                 </div>
-                                <div class="col-md-6" style="margin-top: -13px;">
+                                <div class="col-md-6" style="margin-top: -13px;" v-if="admit.is_home == 0 && admit.is_home != ''">
                                     <div class="form-group">
                                         <label>Bed: <span v-if="errors.bed_id" class="haveerror">({{ errors.bed_id[0] }})</span></label>
                                             <multiselect 
@@ -279,13 +314,14 @@
                 },
                 admit: {
                     completion_at: '', 
-                    arrived_at: '', 
+                    started_at: '', 
                     bed: '',
                     exit_port: '',
                     category_id: '',
                     facility_id: '',
                     bed_id: '',
                     patient_id: '',
+                    is_home: '',
                 }
             }
         },
@@ -355,13 +391,16 @@
                     address: this.user.address,
                     barangay_id: (this.user.barangay_id == '') ? '' : this.user.barangay_id.id ,
                     is_vaccinated: this.user.is_vaccinated,
-                    vaccine: this.user.vaccine,
+                    vaccine: (this.user.is_vaccinated) ? this.user.vaccine : 'n/a',
                     editable: this.editable
                 })
                 .then(response => {
                     this.admit.patient_id = response.data.data;
                     this.disable = 2;
                     this.isLoading = false;
+                    Vue.$toast.success('<strong>Patient Successfully Added</strong>', {
+                        position: 'bottom-right'
+                    });
                 })
                 .catch(error => {
                     if (error.response.status == 422) {
@@ -382,9 +421,10 @@
                     id: this.id,
                     status_id: this.admit.category_id.id,
                     exit_port: this.admit.exit_port,
-                    arrived_at: this.admit.arrived_at,
+                    started_at: this.admit.started_at,
                     completion_at: this.admit.completion_at,
-                    bed_id: this.admit.bed_id.id,
+                    is_home: this.admit.is_home,
+                    bed_id: (this.admit.is_home == 0) ? this.admit.bed_id.id : '',
                     patient_id: this.admit.patient_id.id,
                     editable: this.editable
                 })
@@ -409,6 +449,7 @@
             clear(){
                 this.admit = {};
                 this.user = {};
+                this.disable = 1;
             }
         }, components : { Multiselect }
     }
