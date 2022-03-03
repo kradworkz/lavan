@@ -13,10 +13,16 @@ use App\Http\Resources\AdmissionResource;
 class AdmissionController extends Controller
 {
     public function index($keyword,$status,$count){
+        $municipality_id = \Auth::user()->municipality_id;
         ($keyword == '-') ? $keyword = '' : $keyword;
         $data = PatientAdmission::with('facility','facility.bed.facility')->with('status')->with('patient')
         ->whereHas('patient',function ($query) use ($keyword) {
             $query->where(\DB::raw('concat(firstname," ",lastname)'), 'LIKE', '%'.$keyword.'%')->orWhere(\DB::raw('concat(lastname," ",firstname)'), 'LIKE', '%'.$keyword.'%');
+        })
+        ->whereHas('patient',function ($query) use ($municipality_id) {
+            $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                $query->where('municipality_id',$municipality_id);
+            });
         })
         ->where(function ($query) use ($status) {
             ($status == '-') ? '' : $query->where('status_id',$status);

@@ -12,9 +12,13 @@ use App\Http\Requests\FacilityRequest;
 class FacilityController extends Controller
 {
     public function index($keyword,$count){
+        $municipality_id = \Auth::user()->municipality_id;
         ($keyword == '-') ? $keyword = '' : $keyword;
         $data = Facility::with('barangay')->where(function ($query) use ($keyword) {
             $query->where('name', 'LIKE', '%'.$keyword.'%');
+        })
+        ->whereHas('barangay',function ($query) use ($municipality_id) {
+            $query->where('municipality_id',$municipality_id);
         })
         ->orderBy('is_main','DESC')->paginate($count);
         return FacilityResource::collection($data);

@@ -9,6 +9,9 @@ class Barangay extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', 'municipality_id' 
+    ];
     public $timestamps = false;
 
     public function patient()

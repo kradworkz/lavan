@@ -39,6 +39,20 @@ const routes = [{
         name: 'dropdowns',
         beforeEnter: admin
     },
+    {
+        path: '/municipalities',
+        component: () =>
+            import ('../Pages/Municipality.vue'),
+        name: 'municipalities',
+        beforeEnter: admin
+    },
+    {
+        path: '/municipality/:id',
+        component: () =>
+            import ('../Pages/MuniProfile.vue'),
+        name: 'municipality/profile',
+        beforeEnter: admin
+    },
 
     // Main Iso
 

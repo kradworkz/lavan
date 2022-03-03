@@ -47,6 +47,12 @@
                     </router-link>
                 </li>
                 <li>
+                    <router-link :to="{ name: 'municipalities' }" class="waves-effect">
+                        <i class="bx bx-map"></i>
+                        <span key="t-dashboards">Municipalities</span>
+                    </router-link>
+                </li>
+                <li>
                     <router-link :to="{ name: 'logs' }" class="waves-effect">
                         <i class="bx bx-message-square-dots"></i>
                         <span key="t-dashboards">Logs</span>

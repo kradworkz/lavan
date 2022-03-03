@@ -14,6 +14,11 @@ Vue.component('home-index', require('./components/Admin/Home/Index.vue').default
 Vue.component('dropdown-index', require('./components/Admin/Dropdown/Index.vue').default);
 Vue.component('dropdown-create', require('./components/Admin/Dropdown/Create.vue').default);
 
+Vue.component('muni-index', require('./components/Admin/Municipality/Index.vue').default);
+Vue.component('muni-create', require('./components/Admin/Municipality/Create.vue').default);
+Vue.component('muni-view', require('./components/Admin/Municipality/View.vue').default);
+Vue.component('muni-create-b', require('./components/Admin/Municipality/CreateB.vue').default);
+
 Vue.component('users-index', require('./components/Admin/User/Index.vue').default);
 Vue.component('user-create', require('./components/Admin/User/Create.vue').default);
 Vue.component('user-status', require('./components/Admin/User/Status.vue').default);

@@ -11,9 +11,26 @@ use Illuminate\Http\Request;
 class StatisticController extends Controller
 {
     public function facility(){
-        $facility = Facility::count();
-        $occupied = Bed::where('is_available',0)->count();
-        $vacant = Bed::where('is_available',1)->count();
+        $municipality_id = \Auth::user()->municipality_id;
+        
+        $facility = Facility::whereHas('barangay',function ($query) use ($municipality_id) {
+            $query->where('municipality_id',$municipality_id);
+        })->count();
+
+        $occupied = Bed::where('is_available',0)
+        ->whereHas('facility',function ($query) use ($municipality_id) {
+            $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                $query->where('municipality_id',$municipality_id);
+            });
+        })
+        ->count();
+
+        $vacant = Bed::where('is_available',1)
+        ->whereHas('facility',function ($query) use ($municipality_id) {
+            $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                $query->where('municipality_id',$municipality_id);
+            });
+        })->count();
 
         $data = [
             "facility" => $facility,
@@ -33,7 +50,13 @@ class StatisticController extends Controller
                 })
                 ->whereHas('facility', function ($q) use ($x) {
                     $q->where('is_main',$x);
-                })->count();
+                })
+                ->whereHas('facility',function ($query) use ($municipality_id) {
+                    $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                        $query->where('municipality_id',$municipality_id);
+                    });
+                })
+                ->count();
 
                 $bed_type[] = [
                     'name' => $names[$y],

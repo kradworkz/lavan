@@ -20,19 +20,19 @@
                                         <input type="text" class="form-control" v-model="user.name" style="text-transform: capitalize;">
                                     </div>
                                 </div>
-                                <div class="col-md-4" style="margin-top: -7px;">
+                                <div class="col-md-6" style="margin-top: -7px;">
                                     <div class="form-group">
                                         <label>Email: <span v-if="errors.email" class="haveerror">({{ errors.email[0] }})</span></label>
                                         <input type="email" class="form-control" v-model="user.email" style="text-transform: lowercase;">
                                     </div>
                                 </div>
-                                <div class="col-md-4" style="margin-top: -7px;">
+                                <div class="col-md-6" style="margin-top: -7px;">
                                     <div class="form-group">
                                         <label>Mobile No.: <span v-if="errors.mobile" class="haveerror">({{ errors.mobile[0] }})</span></label>
                                         <input type="text" class="form-control" v-model="user.mobile">
                                     </div>
                                 </div>
-                                <div class="col-md-4" style="margin-top: -7px;">
+                                <div class="col-md-6" style="margin-top: -7px;">
                                     <div class="form-group">
                                         <label>Type: <span v-if="errors.type" class="haveerror">({{ errors.type[0] }})</span></label>
                                           <multiselect 
@@ -41,6 +41,19 @@
                                             :allow-empty="false"
                                             :show-labels="false"
                                             placeholder="Select Role">
+                                        </multiselect>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="margin-top: -7px;">
+                                    <div class="form-group">
+                                        <label>Municipality: <span v-if="errors.municipality" class="haveerror">({{ errors.municipality[0] }})</span></label>
+                                          <multiselect 
+                                            v-model="user.municipality" 
+                                            :options="municipalities"
+                                            :allow-empty="false"
+                                            :show-labels="false"
+                                            label="name" track-by="id" 
+                                            placeholder="Select Municipality">
                                         </multiselect>
                                     </div>
                                 </div>
@@ -94,15 +107,30 @@
                     type: '',
                     gender: '', 
                     mobile: '',
+                    municipality: ''
                 },
                 roles: ['Administrator','Contact Tracer','Isolation Manager'],
+                municipalities: [],
                 editable: false,
                 isLoading: false,
                 fullPage: true
             }
         },
+
+        created(){
+            this.fetchMunicipality();
+        },
         
         methods : {
+             
+            fetchMunicipality(){
+                axios.get(this.currentUrl + '/request/municipalities')
+                .then(response => {
+                    this.municipalities = response.data.data;
+                })
+                .catch(err => console.log(err));
+            },
+
             create(){
                 this.isLoading = true;
                 axios.post(this.currentUrl + '/request/user/store', {
@@ -111,6 +139,7 @@
                     email: this.user.email,
                     gender: this.user.gender,
                     mobile: this.user.mobile,
+                    municipality_id: this.municipality.id,
                     type: this.user.type,
                     editable: this.editable
                 })

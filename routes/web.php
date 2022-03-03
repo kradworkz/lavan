@@ -30,6 +30,11 @@ Route::prefix('statistics')->group(function(){
 });
 
 Route::prefix('request')->group(function(){
+    Route::get('/municipalities/{keyword}/{count}', 'MunicipalityController@index');
+    Route::post('/municipality/store', 'MunicipalityController@store');
+    Route::get('/municipalities', 'MunicipalityController@lists');
+    Route::get('/municipality/{id}', 'MunicipalityController@view');
+    Route::post('/barangay/store', 'MunicipalityController@storeb');
 
     Route::get('/dropdowns/{type}/{keyword}/{count}', 'DropdownController@index');
     Route::get('/dropdowns/{type}', 'DropdownController@lists');

@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        
+        \DB::table('municipalities')->insert([
+            'name' => 'Siocon'
+        ]);
+        
         \DB::table('users')->insert([
             'email' => 'admin@lavan.com',
             'password' => bcrypt('123456789'),
@@ -23,7 +28,8 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'mobile' => '09123456789',
             'name' => 'Covid Lavan',
-            'gender' => 'Male'
+            'gender' => 'Male',
+            'municipality_id' => 1,
         ]);
 
         $this->call(BarangayTableSeeder::class);

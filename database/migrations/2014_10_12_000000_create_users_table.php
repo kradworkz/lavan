@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
             $table->string('type',50);
             $table->boolean('is_active')->default(0);
             $table->timestamp('welcome_valid_until')->nullable();
+            $table->integer('municipality_id')->unsigned()->index();
+            $table->foreign('municipality_id')->references('id')->on('municipalities')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

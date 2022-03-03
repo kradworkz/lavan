@@ -99,26 +99,26 @@
             <div class="col-md-6">
                 <div class="card" :style="{ height: (height-120) + 'px' }">
                     <div class="card-body">
-                        <div class="float-right">
+                        <!-- <div class="float-right">
                             <select class="custom-select custom-select-sm ml-2">
                                 <option value="1" selected="">March</option>
                                 <option value="2">February</option>
                                 <option value="3">January</option>
                                 <option value="4">December</option>
                             </select>
-                        </div>
+                        </div> -->
                         <h4 class="card-title mb-3 text-primary">
                             Facilities  
                             <span class="font-size-13 text-muted mb-4"> ({{facility.facility.facility}} Facilities)</span>
                         </h4>
 
-                        <div class="mt-3">
+                        <div class="mt-4">
                             <p class="font-weight-bold mb-0">Bed Occupancy</p>
                             <h4>
                                 {{ parseFloat((facility.facility.occupied/facility.facility.total) * 100).toFixed(2) }}% 
                                 <span class="font-size-13 text-muted mb-4"> ({{ facility.facility.total}} total) <i class="mdi mdi-arrow-up ml-1 text-success"></i></span>
                             </h4>
-                            <div class="row mt-3">
+                            <div class="row mt-4">
                                 <div class="col-6">
                                     <div>
                                         <p class="mb-1 font-weight-bold text-danger">Occupied</p>

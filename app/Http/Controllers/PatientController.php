@@ -11,11 +11,15 @@ use App\Http\Requests\PatientRequest;
 class PatientController extends Controller
 {
     public function index($keyword,$count){
+        $municipality_id = \Auth::user()->municipality_id;
         ($keyword == '-') ? $keyword = '' : $keyword;
         $data = Patient::with('histories')->with('barangay')->where(function ($query) use ($keyword) {
             $query->where('firstname', 'LIKE', '%'.$keyword.'%')
             ->orWhere('lastname', 'LIKE', '%'.$keyword.'%')
             ->orWhere('middlename', 'LIKE', '%'.$keyword.'%');
+        })
+        ->whereHas('barangay',function ($query) use ($municipality_id) {
+            $query->where('municipality_id',$municipality_id);
         })
         ->orderBy('id','DESC')->paginate($count);
         return PatientResource::collection($data);
