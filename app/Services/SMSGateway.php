@@ -11,8 +11,9 @@ class SMSGateway {
 
         $array_fields['phone_number'] = $phone;
         $array_fields['message'] = $message;
-        $array_fields['device_id'] = 127325;
-        $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTY0NTE2OTAxMCwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjkzMDU5LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.A6n6B6uRngFQAenkb_-jtiYx4vIdiNv4od7m2KwzlIM";
+        $array_fields['device_id'] = 127464;
+        $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTY0NjI5MTMwMiwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjkzMjc5LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.WBaXW6ZqyNApd1aQaDI08CVZvtglh_NHewGWWgaX5MU";
+        // $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTY0NTE2OTAxMCwiZXhwIjo0MTAyNDQ0ODAwLCJ1aWQiOjkzMDU5LCJyb2xlcyI6WyJST0xFX1VTRVIiXX0.A6n6B6uRngFQAenkb_-jtiYx4vIdiNv4od7m2KwzlIM";
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

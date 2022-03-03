@@ -40,6 +40,8 @@
                     <table class="table table-centered table-nowrap">
                         <thead class="thead-light">
                             <tr class="font-size-11 text-center" >
+                                <th class="text-center" style="font-size: 7px; width: 1%;">ANTIGEN</th>
+                                <th class="text-center" style="font-size: 7px; width: 1%;">RTCPR</th>
                                 <th>Facility</th>
                                 <th>Port of Exit</th>
                                 <th>Date of Started</th>
@@ -50,6 +52,28 @@
                         </thead>
                         <tbody>
                             <tr v-for="list in lists" v-bind:key="list.id" class="text-center">
+                                <td class="text-center">
+                                    <div v-if="list.tests.length == 0">
+                                        <i class='bx bx-circle h4'></i>
+                                    </div>
+                                    <div v-else>
+                                        <i v-if="check(list.tests,0) == 'pending'" class='bx bx-loader-circle h4 text-warning'></i>
+                                        <i v-else-if="check(list.tests,0) == 'negative'" class='bx bxs-minus-circle h4 text-info'></i>
+                                        <i v-else-if="check(list.tests,0) == 'positive'" class='bx bxs-plus-circle h4 text-danger'></i>
+                                        <i v-else class='bx bx-circle h4'></i>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div v-if="list.tests.length == 0">
+                                        <i class='bx bx-circle h4'></i>
+                                    </div>
+                                    <div v-else>
+                                        <i v-if="check(list.tests,1) == 'pending'" class='bx bx-loader-circle h4 text-warning'></i>
+                                        <i v-else-if="check(list.tests,1) == 'negative'" class='bx bxs-minus-circle h4 text-info'></i>
+                                        <i v-else-if="check(list.tests,1) == 'positive'" class='bx bxs-plus-circle h4 text-danger'></i>
+                                        <i v-else class='bx bx-circle h4'></i>
+                                    </div>
+                                </td>
                                 <td>
                                     <h5 v-if="list.is_home == 0" class="font-size-12 mb-0 text-dark">Floor {{list.facility.bed.floor}} - Bed {{list.facility.bed.name}}</h5>
                                     <p v-if="list.is_home == 0" class="font-size-12 text-muted mb-0">{{list.facility.bed.facility.name}}</p>
@@ -60,7 +84,8 @@
                                 </td>
                                 <td>{{list.started_at}}</td>
                                 <td>{{list.completion_at}}</td>
-                                <td><span :class="'badge badge-bg badge-'+list.status.color">{{list.status.name}}</span></td>
+                                <td v-if="list.is_positive"><span :class="'badge badge-bg badge-'+list.status.color">{{list.status.name}}</span></td>
+                                <td v-else><span :class="'badge badge-bg badge-success'">Released</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -142,7 +167,22 @@ export default {
                 $("#new").modal('hide');
                 this.editable = false;
             }
-        }
+        },
+
+        check(tests,type){
+            let test = tests.filter(x => x.is_rtpcr === type);
+            if(test.length != 0){
+                if(test[0].is_positive == 1){
+                    return 'positive';
+                }else if(test[0].is_positive == 0){
+                    return 'negative';
+                }else{
+                    return 'pending'
+                }
+            }else{
+                return ''
+            }
+        },
     }, 
 }
 </script>

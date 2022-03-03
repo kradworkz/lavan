@@ -56,7 +56,7 @@ class StatisticController extends Controller
     }
 
     public function cases(){
-        $statuses = Dropdown::where('type','Status')->where('name','!=','Cleared')->orderBy('id','ASC')->get();
+        $statuses = Dropdown::where('type','Status')->where('name','!=','Clearedt')->orderBy('id','ASC')->get();
         $icons = ['bx bxs-virus','bx bxs-virus-block', 'bx bxs-ghost'];
         $array = [];
         foreach($statuses as $index => $status){
@@ -91,10 +91,12 @@ class StatisticController extends Controller
     public function total(){
         $active = PatientAdmission::where('is_positive',1)->count();
         $isolated = PatientAdmission::whereNull('is_positive')->where('is_released',0)->count();
+        $home = PatientAdmission::where('is_home',1)->where('is_released',0)->count();
       
         $data = [
             'active' => $active,
-            'isolated' => $isolated
+            'isolated' => $isolated,
+            'home' => $home
         ];
         return $data;
     }

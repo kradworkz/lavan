@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bed;
 use App\Models\PatientAdmission;
+use App\Models\PatientAdmissionTest;
 use App\Models\PatientAdmissionFacility;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
@@ -51,12 +52,39 @@ class AdmissionController extends Controller
     }
 
     public function checkout(Request $request){
-        $data = PatientAdmission::where('id',$request->id)->first();
+        $data = PatientAdmission::with('facility.bed')->where('id',$request->id)->first();
         ($data->status_id == 1) ? $data->status_id = 2 : '';
         $data->is_released = 1;
         if($data->save()){
-            $bed = Bed::where('id',$data->bed_id)->update(['is_available' => 1]);
+            $bed = Bed::where('id',$data->facility->bed_id)->update(['is_available' => 1]);
         }
         return $request->id;
     }
+
+    public function test(Request $request){
+
+        if($request->editable){
+            $data = PatientAdmissionTest::find($request->id);
+            $data->is_positive = $request->is_positive;
+            if($data->save()){
+                if($request->is_positive){
+                    $data = PatientAdmission::with('facility','facility.bed.facility')->with('status')->with('patient')->where('id',$request->admission_id)->first();
+                    $bed = Bed::where('id',$data->facility->bed_id)->update(['is_available' => 1]);
+                    $bed = Bed::where('id',$request->bed_id)->update(['is_available' => 0]);
+                    $data->update($request->except(['editable','bed_id','admission_id']));
+                    $data->facility()->update($request->except(['editable','id','is_positive','status_id','admission_id']));
+                }
+            }
+        }else{
+            $count = PatientAdmissionTest::where('admission_id',$request->id)->where('is_positive',NULL)->count();
+
+            if($count == 0){
+                $data = new PatientAdmissionTest;
+                $data->is_rtpcr = ($request->test == 'RT-PCR') ? 1 : 0;
+                $data->admission_id = $request->id;
+                $data->save();
+            }
+        }
+    }
+    
 }

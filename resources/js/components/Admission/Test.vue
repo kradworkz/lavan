@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Test</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{(user.is_rtpcr == 1) ? 'RT-PCR' : 'Antigen'}} Result</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -10,9 +10,9 @@
                 
             <div class="modal-body" style="margin-left: 10px; margin-right:10px;">
                 <form @submit.prevent="add">
-                <p class="mt-2 mb-4">Please choose a type to test patient <span class="text-primary font-weight-bold">{{ user.patient_name }} </span></p>
+                <p class="text-center"> <span class="text-primary font-weight-bold">{{ user.admission.patient.firstname }} {{ user.admission.patient.lastname }}</span> result is</p>
                 
-                <!-- <blockquote class="border-light border rounded ">
+                <blockquote class="border-light border rounded ">
                 <div class="col-md-12 text-center">
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-md-6">
@@ -29,24 +29,41 @@
                         </div>
                     </div>
                 </div>
-                </blockquote> -->
+                </blockquote>
 
-                <div class="row customerform">
+                <div class="row customerform" v-if="result == 1">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Type of Test: <span v-if="errors.test" class="haveerror">({{ errors.test[0] }})</span></label>
+                            <label>Facility: <span v-if="errors.facility_id" class="haveerror">({{ errors.facility_id[0] }})</span></label>
                                 <multiselect 
-                                v-model="test" 
-                                :options="tests"
+                                v-model="facility_id" 
+                                :options="facilities"
                                 :allow-empty="false"
                                 :show-labels="false"
+                                label="name" track-by="id" 
                                 open-direction="bottom"
-                                placeholder="Select Type">
+                                @input="onChange(facility_id)"
+                                placeholder="Select Facility">
+                            </multiselect>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top: -13px;">
+                        <div class="form-group">
+                            <label>Bed: <span v-if="errors.bed_id" class="haveerror">({{ errors.bed_id[0] }})</span></label>
+                                <multiselect 
+                                v-model="bed_id" 
+                                :options="beds"
+                                :allow-empty="false"
+                                :show-labels="false"
+                                label="name" track-by="id" 
+                                open-direction="bottom"
+                                :custom-label="customLabel1"
+                                placeholder="Select Bed">
                             </multiselect>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm btn-block waves-effect waves-light mt-2 mb-1">Save</button>
+                <button v-if="result != ''" type="submit" class="btn btn-primary btn-sm btn-block waves-effect waves-light mt-2 mb-1">CONFIRM RESULT</button>
                 </form>
             </div>
         </div>
@@ -60,10 +77,21 @@
             return {
                 currentUrl: window.location.origin,
                 errors: [],
-                tests: ["RT-PCR","Antigen"],
-                test: '', 
-                user: '',
+                facilities: [],
+                beds: [],
+                facility_id: '',
+                bed_id: '',
+                user: {
+                    admission: {
+                        patient: {}
+                    }
+                },
+                result: '',
             }
+        },
+
+        created(){
+            this.fetchFacility();
         },
 
         methods : {
@@ -71,14 +99,34 @@
                 this.user = user;
             },
 
+            fetchFacility() {
+                axios.get(this.currentUrl + '/request/facilities/1')
+                .then(response => {
+                    this.facilities = response.data.data;
+                })
+                .catch(err => console.log(err));
+            },
+
+            customLabel1 ({ name, floor}) {
+                return `Floor ${floor} - Room ${name}`
+            },
+
+            onChange(list) {
+                this.beds = list.beds;
+            },
+
             add(){
                 axios.post(this.currentUrl + '/request/admission/test', {
                     id: this.user.id,
-                    test: this.test
+                    admission_id: this.user.admission_id,
+                    bed_id: this.bed_id.id,
+                    is_positive: this.result,
+                    status_id: (this.result == 1) ? 1 : '',
+                    editable: true
                 })
                 .then(response => {
                     this.$emit('status', response.data.data);
-                    $("#result").modal('hide');
+                    $("#result1").modal('hide');
                 })
                 .catch(error => {
                     if (error.response.status == 422) {

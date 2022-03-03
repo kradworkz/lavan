@@ -47,29 +47,19 @@
                     <table class="table table-centered table-nowrap">
                         <thead class="thead-light">
                             <tr class="font-size-11">
-                                <th class="text-center" style="font-size: 7px; width: 1%;">ANTIGEN</th>
-                                <th class="text-center" style="font-size: 7px; width: 1%;">RTCPR</th>
                                 <th>Name</th>
                                 <th class="text-center">Facility</th>
                                 <th class="text-center">Port of Exit</th>
                                 <th class="text-center">Date of Completion</th>
                                 <th class="text-center">Category</th>
+                                <th class="text-center" style="font-size: 7px; width: 1%;">ANTIGEN</th>
+                                <th class="text-center" style="font-size: 7px; width: 1%;">RTCPR</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="list in lists" v-bind:key="list.id" :class="[(list.status.name == 'Active') ? 'bg-soft-warning' : '']">
-                                <td class="text-center">
-                                    <i v-if="list.tests.length == 0" class='bx bx-circle h3'></i>
-                                    <i v-else-if="list.tests.length == 1" class='bx bxs-minus-circle h3'></i>
-                                    <i v-else class='bx bxs-plus-circle h3'></i>
-                                </td>
-                                <td class="text-center">
-                                   <i v-if="list.tests.length == 0" class='bx bx-circle h3'></i>
-                                    <i v-else-if="list.tests.length == 1" class='bx bxs-minus-circle h3'></i>
-                                    <i v-else class='bx bxs-plus-circle h3'></i>
-                                </td>
-                                <td>
+                                <td >
                                     <h5 class="font-size-12 mb-0 text-dark">{{list.patient_name}}</h5>
                                     <p class="font-size-12 text-muted mb-0">{{list.patient_address}}</p>
                                 </td>
@@ -85,6 +75,28 @@
                                 </td>
                                 <td class="text-center">{{list.completion_at}}</td>
                                 <td class="text-center"><span :class="'badge badge-bg badge-'+list.status.color">{{list.status.name}}</span></td>
+                                <td class="text-center">
+                                    <div v-if="list.tests.length == 0">
+                                        <i class='bx bx-circle h4'></i>
+                                    </div>
+                                    <div v-else>
+                                        <i v-if="check(list.tests,0) == 'pending'" class='bx bx-loader-circle h4 text-warning'></i>
+                                        <i v-else-if="check(list.tests,0) == 'negative'" class='bx bxs-minus-circle h4 text-info'></i>
+                                        <i v-else-if="check(list.tests,0) == 'positive'" class='bx bxs-plus-circle h4 text-danger'></i>
+                                        <i v-else class='bx bx-circle h4'></i>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div v-if="list.tests.length == 0">
+                                        <i class='bx bx-circle h4'></i>
+                                    </div>
+                                    <div v-else>
+                                        <i v-if="check(list.tests,1) == 'pending'" class='bx bx-loader-circle h4 text-warning'></i>
+                                        <i v-else-if="check(list.tests,1) == 'negative'" class='bx bxs-minus-circle h4 text-info'></i>
+                                        <i v-else-if="check(list.tests,1) == 'positive'" class='bx bxs-plus-circle h4 text-danger'></i>
+                                        <i v-else class='bx bx-circle h4'></i>
+                                    </div>
+                                </td>
                                 <td class="text-right">
                                     <button v-if="list.is_positive == null" type="button" @click="result(list)" class="btn btn-light waves-effect waves-light mr-2"><i class='text-danger bx bxs-virus'></i></button>
                                     <button type="button" @click="checkout(list)" class="btn btn-light waves-effect waves-light mr-2"><i class='bx bx-exit'></i></button>
@@ -178,6 +190,21 @@ export default {
 
         checkin(){
             $("#new").modal('show');
+        },
+
+        check(tests,type){
+            let test = tests.filter(x => x.is_rtpcr === type);
+            if(test.length != 0){
+                if(test[0].is_positive == 1){
+                    return 'positive';
+                }else if(test[0].is_positive == 0){
+                    return 'negative';
+                }else{
+                    return 'pending'
+                }
+            }else{
+                return ''
+            }
         },
 
         checkout(id){

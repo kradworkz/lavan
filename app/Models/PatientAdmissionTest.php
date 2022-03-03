@@ -18,4 +18,14 @@ class PatientAdmissionTest extends Model
     {
         return $this->belongsTo('App\Models\PatientAdmission', 'admission_id', 'id');
     }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return date('M d, Y g:i a', strtotime($value));
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('M d, Y g:i a', strtotime($value));
+    }
 }
