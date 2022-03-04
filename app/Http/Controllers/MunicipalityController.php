@@ -50,7 +50,7 @@ class MunicipalityController extends Controller
         $data = \DB::transaction(function () use ($request){
             if($request->editable){
                 $data = Barangay::where('id',$request->id)->first();
-                $data->update($request->except('editable'));
+                $data->update($request->except('editable','municipality_id'));
                 return $data;
             }else{
                 $data = Barangay::create($request->all());
