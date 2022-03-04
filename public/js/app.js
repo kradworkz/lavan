@@ -2992,6 +2992,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     edit: function edit(list, editable) {
+      this.id = list.id;
       this.name = list.name;
       this.editable = editable;
     },
