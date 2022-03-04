@@ -28,8 +28,8 @@ class UserController extends Controller
                 $data->update($request->except('editable'));
                 return $data;
             }else{
-                $data = User::create(array_merge($request->all(), ['password' => bcrypt('dost9ict')]));
-                EmailNewAccount::dispatch($data->id)->delay(now()->addSeconds(10));
+                $data = User::create(array_merge($request->all(), ['password' => bcrypt('lavan2022')]));
+                // EmailNewAccount::dispatch($data->id)->delay(now()->addSeconds(10));
                 return $data;
             }
         });

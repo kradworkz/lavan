@@ -139,7 +139,7 @@
                     email: this.user.email,
                     gender: this.user.gender,
                     mobile: this.user.mobile,
-                    municipality_id: this.municipality.id,
+                    municipality_id: this.user.municipality.id,
                     type: this.user.type,
                     editable: this.editable
                 })
