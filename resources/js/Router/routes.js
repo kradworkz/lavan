@@ -68,7 +68,7 @@ const routes = [{
         component: () =>
             import ('../Pages/Room.vue'),
         name: 'facility/profile',
-        beforeEnter: admin
+        beforeEnter: adminiso
     },
     {
         path: '/patients',

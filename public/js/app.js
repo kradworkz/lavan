@@ -7018,7 +7018,7 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Room_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Room.vue */ "./resources/js/Pages/Room.vue"));
   },
   name: 'facility/profile',
-  beforeEnter: admin
+  beforeEnter: adminiso
 }, {
   path: '/patients',
   component: function component() {

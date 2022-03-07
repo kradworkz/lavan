@@ -87,9 +87,15 @@ class FacilityController extends Controller
     }
 
     public function type($type){
-        
-        $data = Facility::with('beds')->where(function ($query) use ($type) {
+        $municipality_id = \Auth::user()->municipality_id;
+        $data = Facility::where(function ($query) use ($type) {
             $query->where('is_main', $type);
+        })
+        ->with(['beds' => function ($query){
+            $query->where('is_available', 1);
+        }])
+        ->whereHas('barangay',function ($query) use ($municipality_id) {
+            $query->where('municipality_id',$municipality_id);
         })
         ->orderBy('id','DESC')->get();
         return DefaultResource::collection($data);
