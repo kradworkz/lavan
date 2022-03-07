@@ -41,7 +41,7 @@ class DropdownsTableSeeder extends Seeder
             array (
                 'id' => 3,
                 'name' => 'died',
-                'color' => 'gray',
+                'color' => 'black',
                 'type' => 'Status',
                 'created_at' => '2022-01-12 06:24:01',
                 'updated_at' => '2022-01-12 06:24:01',
@@ -49,33 +49,42 @@ class DropdownsTableSeeder extends Seeder
             3 => 
             array (
                 'id' => 4,
-                'name' => 'person under monitoring',
-                'color' => 'red',
-                'type' => 'Category',
-                'created_at' => '2022-01-12 06:25:33',
-                'updated_at' => '2022-01-12 06:25:33',
+                'name' => 'released',
+                'color' => 'gray',
+                'type' => 'Status',
+                'created_at' => '2022-03-07 21:19:25',
+                'updated_at' => '2022-03-07 21:19:25',
             ),
             4 => 
             array (
                 'id' => 5,
+                'name' => 'person under monitoring',
+                'color' => 'yellow',
+                'type' => 'Category',
+                'created_at' => '2022-01-12 06:25:33',
+                'updated_at' => '2022-01-12 06:25:33',
+            ),
+            5 => 
+            array (
+                'id' => 6,
                 'name' => 'person under investigation',
                 'color' => 'yellow',
                 'type' => 'Category',
                 'created_at' => '2022-01-12 06:26:12',
                 'updated_at' => '2022-01-12 06:26:12',
             ),
-            5 => 
+            6 => 
             array (
-                'id' => 6,
+                'id' => 7,
                 'name' => 'local stranded individual',
                 'color' => 'blue',
                 'type' => 'Category',
                 'created_at' => '2022-01-12 06:26:51',
                 'updated_at' => '2022-01-12 06:26:51',
             ),
-            6 => 
+            7 => 
             array (
-                'id' => 7,
+                'id' => 8,
                 'name' => 'returning overseas filipino',
                 'color' => 'black',
                 'type' => 'Category',

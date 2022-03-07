@@ -2584,6 +2584,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2599,7 +2632,8 @@ __webpack_require__.r(__webpack_exports__);
       cases: [],
       category: [],
       total: {},
-      tests: []
+      tests: [],
+      releasings: []
     };
   },
   computed: {
@@ -2631,6 +2665,7 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchCategory();
     this.fetchTotal();
     this.fetchTests();
+    this.fetchReleasing();
   },
   methods: {
     fetchTests: function fetchTests() {
@@ -2642,38 +2677,47 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(err);
       });
     },
-    fetchFacility: function fetchFacility() {
+    fetchReleasing: function fetchReleasing() {
       var _this2 = this;
 
+      axios.get(this.currentUrl + '/request/dashboard/releasing').then(function (response) {
+        _this2.releasings = response.data.data;
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    fetchFacility: function fetchFacility() {
+      var _this3 = this;
+
       axios.get(this.currentUrl + '/statistics/facility').then(function (response) {
-        _this2.facility = response.data;
+        _this3.facility = response.data;
       })["catch"](function (err) {
         return console.log(err);
       });
     },
     fetchCases: function fetchCases() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get(this.currentUrl + '/statistics/cases').then(function (response) {
-        _this3.cases = response.data;
+        _this4.cases = response.data;
       })["catch"](function (err) {
         return console.log(err);
       });
     },
     fetchCategory: function fetchCategory() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get(this.currentUrl + '/statistics/isolated').then(function (response) {
-        _this4.category = response.data;
+        _this5.category = response.data;
       })["catch"](function (err) {
         return console.log(err);
       });
     },
     fetchTotal: function fetchTotal() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get(this.currentUrl + '/statistics/total').then(function (response) {
-        _this5.total = response.data;
+        _this6.total = response.data;
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -2682,8 +2726,19 @@ __webpack_require__.r(__webpack_exports__);
       $("#result1").modal('show');
       this.$refs.result.set(user);
     },
-    message: function message() {
+    message2: function message2() {
       this.fetchTests();
+    },
+    message: function message(list) {
+      var i = this.releasings.map(function (item) {
+        return item.id;
+      }).indexOf(list);
+      this.releasings.splice(i, 1);
+    },
+    checkout: function checkout(id) {
+      $("#checkout").modal('show');
+      this.$refs.checkout.set(id);
+      this.editable = 'checkout';
     }
   }
 });
@@ -3547,7 +3602,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['type'],
   data: function data() {
     return {
       currentUrl: window.location.origin,
@@ -3559,17 +3613,24 @@ __webpack_require__.r(__webpack_exports__);
         type: '',
         gender: '',
         mobile: '',
-        municipality: ''
+        municipality_id: ''
       },
-      roles: ['Administrator', 'Contact Tracer', 'Isolation Manager'],
+      roles: '',
       municipalities: [],
       editable: false,
       isLoading: false,
-      fullPage: true
+      fullPage: true,
+      type: window.User.type
     };
   },
   created: function created() {
     this.fetchMunicipality();
+
+    if (window.User.type == 'Super Administrator') {
+      this.roles = ['Administrator'];
+    } else {
+      this.roles = ['Contact Tracer', 'Isolation Manager'];
+    }
   },
   methods: {
     fetchMunicipality: function fetchMunicipality() {
@@ -3591,7 +3652,7 @@ __webpack_require__.r(__webpack_exports__);
         email: this.user.email,
         gender: this.user.gender,
         mobile: this.user.mobile,
-        municipality_id: this.user.municipality.id,
+        municipality_id: this.user.municipality_id.id,
         type: this.user.type,
         editable: this.editable
       }).then(function (response) {
@@ -3726,6 +3787,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -3735,7 +3798,8 @@ __webpack_require__.r(__webpack_exports__);
       errors: [],
       pagination: {},
       keyword: '',
-      users: []
+      users: [],
+      type: window.User.type
     };
   },
   computed: {
@@ -4409,6 +4473,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -4416,7 +4486,8 @@ __webpack_require__.r(__webpack_exports__);
       currentUrl: window.location.origin,
       errors: [],
       user: '',
-      confirm: ''
+      confirm: '',
+      died: false
     };
   },
   methods: {
@@ -4427,7 +4498,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post(this.currentUrl + '/request/admission/checkout', {
-        id: this.user.id
+        id: this.user.id,
+        died: this.died
       }).then(function (response) {
         _this.$emit('status', response.data);
 
@@ -4714,7 +4786,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchStatus: function fetchStatus() {
       var _this2 = this;
 
-      axios.get(this.currentUrl + '/request/dropdowns/Status').then(function (response) {
+      axios.get(this.currentUrl + '/request/dropdowns/-').then(function (response) {
         _this2.statuses = response.data.data;
       })["catch"](function (err) {
         return console.log(err);
@@ -4743,7 +4815,7 @@ __webpack_require__.r(__webpack_exports__);
       var vm = this;
       var key;
       this.keyword != '' && this.keyword != null ? key = this.keyword : key = '-';
-      this.fetch(this.currentUrl + '/request/admissions/' + key + '/' + this.category + '/' + this.status + '/' + this.counts);
+      this.fetch(this.currentUrl + '/request/admissions/' + key + '/' + this.status + '/' + this.counts);
     }
   }
 });
@@ -5947,7 +6019,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.isLoading = true;
       axios.post(this.currentUrl + '/request/patient/store', {
-        id: this.id,
+        id: this.user.id,
         firstname: this.user.firstname,
         middlename: this.user.middlename,
         lastname: this.user.lastname,
@@ -5978,7 +6050,8 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    edit: function edit(list, editable) {
+    edit: function edit(list) {
+      this.editable = true;
       this.user = list;
       this.user.barangay_id = list.barangay;
     },
@@ -6888,21 +6961,21 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Admission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Admission.vue */ "./resources/js/Pages/Admission.vue"));
   },
   name: 'admission',
-  beforeEnter: admin
+  beforeEnter: main
 }, {
   path: '/tests',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Tests_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Tests.vue */ "./resources/js/Pages/Tests.vue"));
   },
   name: 'tests',
-  beforeEnter: admin
+  beforeEnter: main
 }, {
   path: '/user',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_User_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/User.vue */ "./resources/js/Pages/User.vue"));
   },
   name: 'user',
-  beforeEnter: admin
+  beforeEnter: both
 }, {
   path: '/logs',
   component: function component() {
@@ -6916,21 +6989,21 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Dropdown_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Dropdown.vue */ "./resources/js/Pages/Dropdown.vue"));
   },
   name: 'dropdowns',
-  beforeEnter: admin
+  beforeEnter: superadmin
 }, {
   path: '/municipalities',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Municipality_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Municipality.vue */ "./resources/js/Pages/Municipality.vue"));
   },
   name: 'municipalities',
-  beforeEnter: admin
+  beforeEnter: superadmin
 }, {
   path: '/municipality/:id',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_MuniProfile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/MuniProfile.vue */ "./resources/js/Pages/MuniProfile.vue"));
   },
   name: 'municipality/profile',
-  beforeEnter: admin
+  beforeEnter: superadmin
 }, // Main Iso
 {
   path: '/facilities',
@@ -6938,7 +7011,7 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Facility_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Facility.vue */ "./resources/js/Pages/Facility.vue"));
   },
   name: 'facilities',
-  beforeEnter: admin
+  beforeEnter: adminiso
 }, {
   path: '/facility/:id',
   component: function component() {
@@ -6952,15 +7025,22 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Patient_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Patient.vue */ "./resources/js/Pages/Patient.vue"));
   },
   name: 'patients',
-  beforeEnter: admin
+  beforeEnter: main
 }, {
   path: '/patient/:id',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Profile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Profile.vue */ "./resources/js/Pages/Profile.vue"));
   },
   name: 'patient/profile',
-  beforeEnter: admin
+  beforeEnter: main
 }];
+
+function superadmin(to, from, next) {
+  window.User.type == "Super Administrator" ? next(true) : next({
+    path: '/home',
+    compone: compone
+  });
+}
 
 function admin(to, from, next) {
   window.User.type == "Administrator" ? next(true) : next({
@@ -6969,8 +7049,22 @@ function admin(to, from, next) {
   });
 }
 
+function adminiso(to, from, next) {
+  window.User.type == "Administrator" || window.User.type == "Isolation Manager" ? next(true) : next({
+    path: '/home',
+    compone: compone
+  });
+}
+
+function both(to, from, next) {
+  window.User.type == "Administrator" || window.User.type == "Super Administrator" ? next(true) : next({
+    path: '/home',
+    compone: compone
+  });
+}
+
 function main(to, from, next) {
-  window.User.type == "Isolation Manager" ? next(true) : next({
+  window.User.type == "Isolation Manager" || window.User.type == "Contact Tracer" ? next(true) : next({
     path: '/home',
     compone: compone
   });
@@ -45554,92 +45648,6 @@ var render = function () {
           ]),
         ]),
       ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "card", style: { height: _vm.height - 120 + "px" } },
-        [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "float-right mb-0 mr-2" }, [
-              _vm._v(_vm._s(_vm.total.home)),
-            ]),
-            _vm._v(" "),
-            _c(
-              "h6",
-              { staticClass: "font-size-12 font-weight-bold mb-1 text-muted" },
-              [_vm._v("HOME ISOLATION")]
-            ),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c(
-              "h6",
-              { staticClass: "font-size-12 font-weight-bold mb-4 text-muted" },
-              [_vm._v("UNDER ISOLATION")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "table-responsive mt-2 mb-4" }, [
-              _c("table", { staticClass: "table table-centered mb-0" }, [
-                _c(
-                  "tbody",
-                  [
-                    _vm._l(_vm.category, function (c) {
-                      return _c("tr", { key: c.id }, [
-                        _c("td", [
-                          _c(
-                            "h5",
-                            {
-                              staticClass: "font-size-14 mb-1",
-                              class: "text-" + c.color,
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(c.name.match(/\b(\w)/g).join("")) +
-                                  " \r\n                                        "
-                              ),
-                              _c(
-                                "span",
-                                { staticClass: "text-muted font-size-12" },
-                                [_vm._v("(" + _vm._s(c.name) + ")")]
-                              ),
-                            ]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-right" }, [
-                          _c("h5", { staticClass: "mb-0" }, [
-                            _vm._v(_vm._s(c.count)),
-                          ]),
-                        ]),
-                      ])
-                    }),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _vm._m(0),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass:
-                            "text-right font-size-18 font-weight-bold",
-                        },
-                        [
-                          _vm._v(
-                            "\r\n                                    " +
-                              _vm._s(_vm.totalIso) +
-                              "\r\n                                "
-                          ),
-                        ]
-                      ),
-                    ]),
-                  ],
-                  2
-                ),
-              ]),
-            ]),
-          ]),
-        ]
-      ),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-xl-8" }, [
@@ -45678,260 +45686,397 @@ var render = function () {
         }),
         0
       ),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6" }, [
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-xl-6" }, [
+      _c("div", { staticClass: "card", staticStyle: { height: "370px" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("h5", { staticClass: "float-right mb-0 mr-2" }, [
+            _vm._v(_vm._s(_vm.total.home)),
+          ]),
+          _vm._v(" "),
           _c(
-            "div",
-            { staticClass: "card", style: { height: _vm.height - 120 + "px" } },
-            [
-              _c("div", { staticClass: "card-body" }, [
-                _c("h4", { staticClass: "card-title mb-3 text-primary" }, [
-                  _vm._v(
-                    "\r\n                            Facilities  \r\n                            "
-                  ),
-                  _c("span", { staticClass: "font-size-13 text-muted mb-4" }, [
-                    _vm._v(
-                      " (" +
-                        _vm._s(_vm.facility.facility.facility) +
-                        " Facilities)"
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "mt-4" }, [
-                  _c("p", { staticClass: "font-weight-bold mb-0" }, [
-                    _vm._v("Bed Occupancy"),
-                  ]),
-                  _vm._v(" "),
-                  _c("h4", [
-                    _vm._v(
-                      "\r\n                                " +
-                        _vm._s(
-                          parseFloat(
-                            (_vm.facility.facility.occupied /
-                              _vm.facility.facility.total) *
-                              100
-                          ).toFixed(2)
-                        ) +
-                        "% \r\n                                "
-                    ),
-                    _c(
-                      "span",
-                      { staticClass: "font-size-13 text-muted mb-4" },
-                      [
-                        _vm._v(
-                          " (" +
-                            _vm._s(_vm.facility.facility.total) +
-                            " total) "
-                        ),
-                        _c("i", {
-                          staticClass: "mdi mdi-arrow-up ml-1 text-success",
-                        }),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row mt-4" }, [
-                    _c("div", { staticClass: "col-6" }, [
-                      _c("div", [
+            "h6",
+            { staticClass: "font-size-12 font-weight-bold mb-1 text-muted" },
+            [_vm._v("HOME ISOLATION")]
+          ),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c(
+            "h6",
+            { staticClass: "font-size-12 font-weight-bold mb-4 text-muted" },
+            [_vm._v("UNDER ISOLATION")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "table-responsive mt-2 mb-4" }, [
+            _c("table", { staticClass: "table table-centered mb-0" }, [
+              _c(
+                "tbody",
+                [
+                  _vm._l(_vm.category, function (c) {
+                    return _c("tr", { key: c.id }, [
+                      _c("td", [
                         _c(
-                          "p",
-                          { staticClass: "mb-1 font-weight-bold text-danger" },
-                          [_vm._v("Occupied")]
-                        ),
-                        _vm._v(" "),
-                        _c("h5", [
-                          _vm._v(_vm._s(_vm.facility.facility.occupied)),
-                        ]),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-6" }, [
-                      _c("div", [
-                        _c(
-                          "p",
-                          { staticClass: "mb-1 font-weight-bold text-info" },
-                          [_vm._v("Vacant")]
-                        ),
-                        _vm._v(" "),
-                        _c("h5", [
-                          _vm._v(_vm._s(_vm.facility.facility.vacant)),
-                        ]),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-12" }, [
-                      _c("div", { staticClass: "table-responsive mt-4" }, [
-                        _c(
-                          "table",
-                          { staticClass: "table table-centered table-nowrap" },
+                          "h5",
+                          {
+                            staticClass: "font-size-14 mb-1",
+                            class: "text-" + c.color,
+                          },
                           [
+                            _vm._v(
+                              _vm._s(c.name.match(/\b(\w)/g).join("")) +
+                                " \r\n                                        "
+                            ),
                             _c(
-                              "tbody",
-                              _vm._l(_vm.facility.beds, function (bed) {
-                                return _c("tr", { key: bed.id }, [
-                                  _c("td", { staticStyle: { width: "30%" } }, [
-                                    _c("p", { staticClass: "mb-0" }, [
-                                      _vm._v(_vm._s(bed.name)),
-                                    ]),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", { staticStyle: { width: "25%" } }, [
-                                    _c("h5", { staticClass: "mb-0" }, [
-                                      _vm._v(_vm._s(bed.total) + " "),
-                                      _c(
-                                        "span",
-                                        {
-                                          staticClass:
-                                            "text-muted font-size-11",
-                                        },
-                                        [
-                                          _vm._v(
-                                            "(" +
-                                              _vm._s(bed.type[0].count) +
-                                              " of " +
-                                              _vm._s(bed.type[1].count) +
-                                              ")"
-                                          ),
-                                        ]
-                                      ),
-                                    ]),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "progress",
-                                        staticStyle: { height: "10px" },
-                                      },
-                                      [
-                                        _c("div", {
-                                          staticClass: "progress-bar",
-                                          style:
-                                            "width:" +
-                                            parseFloat(
-                                              (bed.type[0].count / bed.total) *
-                                                100
-                                            ).toFixed(2) +
-                                            "%;",
-                                          attrs: {
-                                            role: "progressbar",
-                                            "aria-valuenow": "25",
-                                            "aria-valuemin": "0",
-                                            "aria-valuemax": "",
-                                          },
-                                        }),
-                                      ]
-                                    ),
-                                  ]),
-                                ])
-                              }),
-                              0
+                              "span",
+                              { staticClass: "text-muted font-size-12" },
+                              [_vm._v("(" + _vm._s(c.name) + ")")]
                             ),
                           ]
                         ),
                       ]),
-                    ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(c.count)),
+                        ]),
+                      ]),
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "text-right font-size-18 font-weight-bold",
+                      },
+                      [
+                        _vm._v(
+                          "\r\n                                    " +
+                            _vm._s(_vm.totalIso) +
+                            "\r\n                                "
+                        ),
+                      ]
+                    ),
                   ]),
+                ],
+                2
+              ),
+            ]),
+          ]),
+        ]),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-xl-6" }, [
+      _c("div", { staticClass: "card", staticStyle: { height: "370px" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("h4", { staticClass: "card-title mb-3 text-primary" }, [
+            _vm._v(
+              "\r\n                            Facilities  \r\n                            "
+            ),
+            _c("span", { staticClass: "font-size-13 text-muted mb-4" }, [
+              _vm._v(
+                " (" + _vm._s(_vm.facility.facility.facility) + " Facilities)"
+              ),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mt-4" }, [
+            _c("p", { staticClass: "font-weight-bold mb-0" }, [
+              _vm._v("Bed Occupancy"),
+            ]),
+            _vm._v(" "),
+            _c("h4", [
+              _vm._v(
+                "\r\n                                " +
+                  _vm._s(
+                    parseFloat(
+                      (_vm.facility.facility.occupied /
+                        _vm.facility.facility.total) *
+                        100
+                    ).toFixed(2)
+                  ) +
+                  "% \r\n                                "
+              ),
+              _c("span", { staticClass: "font-size-13 text-muted mb-4" }, [
+                _vm._v(" (" + _vm._s(_vm.facility.facility.total) + " total) "),
+                _c("i", { staticClass: "mdi mdi-arrow-up ml-1 text-success" }),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-4" }, [
+              _c("div", { staticClass: "col-6" }, [
+                _c("div", [
+                  _c(
+                    "p",
+                    { staticClass: "mb-1 font-weight-bold text-danger" },
+                    [_vm._v("Occupied")]
+                  ),
+                  _vm._v(" "),
+                  _c("h5", [_vm._v(_vm._s(_vm.facility.facility.occupied))]),
                 ]),
               ]),
-            ]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c(
-                "h6",
-                {
-                  staticClass: "font-size-12 font-weight-bold mb-4 text-muted",
-                },
-                [_vm._v("PENDING SWAB RESULTS")]
-              ),
               _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "table-responsive mt-2 mb-4",
-                  staticStyle: { overflow: "auto" },
-                  style: { height: _vm.height - 222 + "px" },
-                },
-                [
-                  _c("table", { staticClass: "table table-centered mb-0" }, [
-                    _c(
-                      "tbody",
-                      [
-                        _vm._l(_vm.tests, function (test) {
-                          return _c("tr", { key: test.id }, [
+              _c("div", { staticClass: "col-6" }, [
+                _c("div", [
+                  _c("p", { staticClass: "mb-1 font-weight-bold text-info" }, [
+                    _vm._v("Vacant"),
+                  ]),
+                  _vm._v(" "),
+                  _c("h5", [_vm._v(_vm._s(_vm.facility.facility.vacant))]),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-12" }, [
+                _c("div", { staticClass: "table-responsive mt-4" }, [
+                  _c(
+                    "table",
+                    { staticClass: "table table-centered table-nowrap" },
+                    [
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.facility.beds, function (bed) {
+                          return _c("tr", { key: bed.id }, [
+                            _c("td", { staticStyle: { width: "30%" } }, [
+                              _c("p", { staticClass: "mb-0" }, [
+                                _vm._v(_vm._s(bed.name)),
+                              ]),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticStyle: { width: "25%" } }, [
+                              _c("h5", { staticClass: "mb-0" }, [
+                                _vm._v(_vm._s(bed.total) + " "),
+                                _c(
+                                  "span",
+                                  { staticClass: "text-muted font-size-11" },
+                                  [
+                                    _vm._v(
+                                      "(" +
+                                        _vm._s(bed.type[0].count) +
+                                        " of " +
+                                        _vm._s(bed.type[1].count) +
+                                        ")"
+                                    ),
+                                  ]
+                                ),
+                              ]),
+                            ]),
+                            _vm._v(" "),
                             _c("td", [
                               _c(
-                                "h5",
-                                { staticClass: "font-size-13 mb-0 text-dark" },
-                                [
-                                  _vm._v(
-                                    _vm._s(test.admission.patient.lastname) +
-                                      ", " +
-                                      _vm._s(test.admission.patient.firstname) +
-                                      " " +
-                                      _vm._s(
-                                        test.admission.patient.middlename[0]
-                                      )
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "p",
-                                { staticClass: "font-size-11 text-muted mb-0" },
-                                [_vm._v(_vm._s(test.created_at))]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { staticClass: "font-weight-bold" }, [
-                              _vm._v(
-                                _vm._s(
-                                  test.is_rtpcr == 1 ? "RT-PCR" : "Antigen"
-                                )
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { staticClass: "text-right" }, [
-                              _c(
-                                "button",
+                                "div",
                                 {
-                                  staticClass:
-                                    "btn btn-light btn-sm waves-effect waves-light",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.addresult(test)
-                                    },
-                                  },
+                                  staticClass: "progress",
+                                  staticStyle: { height: "10px" },
                                 },
-                                [_vm._v("Add Result")]
+                                [
+                                  _c("div", {
+                                    staticClass: "progress-bar",
+                                    style:
+                                      "width:" +
+                                      parseFloat(
+                                        (bed.type[0].count / bed.total) * 100
+                                      ).toFixed(2) +
+                                      "%;",
+                                    attrs: {
+                                      role: "progressbar",
+                                      "aria-valuenow": "25",
+                                      "aria-valuemin": "0",
+                                      "aria-valuemax": "",
+                                    },
+                                  }),
+                                ]
                               ),
                             ]),
                           ])
                         }),
-                        _vm._v(" "),
-                        _vm.tests.length == 0
-                          ? _c(
-                              "tr",
-                              { staticClass: "text-center text-muted" },
-                              [_vm._v("No pending results")]
-                            )
-                          : _vm._e(),
-                      ],
-                      2
-                    ),
-                  ]),
-                ]
-              ),
+                        0
+                      ),
+                    ]
+                  ),
+                ]),
+              ]),
             ]),
           ]),
+        ]),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-xl-6" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "h6",
+            { staticClass: "font-size-12 font-weight-bold mb-4 text-muted" },
+            [_vm._v("PENDING SWAB RESULTS")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "table-responsive mt-2 mb-4",
+              staticStyle: { overflow: "auto", height: "267px" },
+            },
+            [
+              _c("table", { staticClass: "table table-centered mb-0" }, [
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.tests, function (test) {
+                      return _c("tr", { key: test.id }, [
+                        _c("td", [
+                          _c(
+                            "h5",
+                            { staticClass: "font-size-13 mb-0 text-dark" },
+                            [
+                              _vm._v(
+                                _vm._s(test.admission.patient.lastname) +
+                                  ", " +
+                                  _vm._s(test.admission.patient.firstname) +
+                                  " " +
+                                  _vm._s(test.admission.patient.middlename[0])
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            { staticClass: "font-size-11 text-muted mb-0" },
+                            [_vm._v(_vm._s(test.created_at))]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "font-weight-bold" }, [
+                          _vm._v(
+                            _vm._s(test.is_rtpcr == 1 ? "RT-PCR" : "Antigen")
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-right" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-light btn-sm waves-effect waves-light",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.addresult(test)
+                                },
+                              },
+                            },
+                            [_vm._v("Add Result")]
+                          ),
+                        ]),
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _vm.tests.length == 0
+                      ? _c("tr", { staticClass: "text-center text-muted" }, [
+                          _vm._v("No pending results"),
+                        ])
+                      : _vm._e(),
+                  ],
+                  2
+                ),
+              ]),
+            ]
+          ),
+        ]),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-xl-6" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "h6",
+            { staticClass: "font-size-12 font-weight-bold mb-4 text-muted" },
+            [_vm._v("FOR RELEASE")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "table-responsive mt-2 mb-4",
+              staticStyle: { overflow: "auto", height: "267px" },
+            },
+            [
+              _c("table", { staticClass: "table table-centered mb-0" }, [
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.releasings, function (test) {
+                      return _c("tr", { key: test.id }, [
+                        _c("td", [
+                          _c(
+                            "h5",
+                            { staticClass: "font-size-13 mb-0 text-dark" },
+                            [
+                              _vm._v(
+                                _vm._s(test.patient.lastname) +
+                                  ", " +
+                                  _vm._s(test.patient.firstname) +
+                                  " " +
+                                  _vm._s(test.patient.middlename[0])
+                              ),
+                            ]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "font-weight-bold" }, [
+                          _vm._v(
+                            _vm._s(test.started_at) +
+                              " - " +
+                              _vm._s(test.completion_at)
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-center" }, [
+                          _c(
+                            "span",
+                            {
+                              class:
+                                "badge badge-bg badge-" + test.status.color,
+                            },
+                            [_vm._v(_vm._s(test.status.name))]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-right" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-light btn-sm waves-effect waves-light",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.checkout(test)
+                                },
+                              },
+                            },
+                            [_vm._v("Release")]
+                          ),
+                        ]),
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _vm.releasings.length == 0
+                      ? _c("tr", { staticClass: "text-center text-muted" }, [
+                          _vm._v("No admission found"),
+                        ])
+                      : _vm._e(),
+                  ],
+                  2
+                ),
+              ]),
+            ]
+          ),
         ]),
       ]),
     ]),
@@ -45948,7 +46093,28 @@ var render = function () {
           "aria-hidden": "true",
         },
       },
-      [_c("admission-test", { ref: "result", on: { status: _vm.message } })],
+      [_c("admission-test", { ref: "result", on: { status: _vm.message2 } })],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade exampleModal",
+        attrs: {
+          id: "checkout",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true",
+        },
+      },
+      [
+        _c("admission-checkout", {
+          ref: "checkout",
+          on: { status: _vm.message },
+        }),
+      ],
       1
     ),
   ])
@@ -47457,58 +47623,65 @@ var render = function () {
                             ]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "col-md-6",
-                              staticStyle: { "margin-top": "-7px" },
-                            },
-                            [
-                              _c(
+                          _vm.type == "Super Administrator"
+                            ? _c(
                                 "div",
-                                { staticClass: "form-group" },
+                                {
+                                  staticClass: "col-md-6",
+                                  staticStyle: { "margin-top": "-7px" },
+                                },
                                 [
-                                  _c("label", [
-                                    _vm._v("Municipality: "),
-                                    _vm.errors.municipality
-                                      ? _c(
-                                          "span",
-                                          { staticClass: "haveerror" },
-                                          [
-                                            _vm._v(
-                                              "(" +
-                                                _vm._s(
-                                                  _vm.errors.municipality[0]
-                                                ) +
-                                                ")"
-                                            ),
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("multiselect", {
-                                    attrs: {
-                                      options: _vm.municipalities,
-                                      "allow-empty": false,
-                                      "show-labels": false,
-                                      label: "name",
-                                      "track-by": "id",
-                                      placeholder: "Select Municipality",
-                                    },
-                                    model: {
-                                      value: _vm.user.municipality,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.user, "municipality", $$v)
-                                      },
-                                      expression: "user.municipality",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                            ]
-                          ),
+                                  _c(
+                                    "div",
+                                    { staticClass: "form-group" },
+                                    [
+                                      _c("label", [
+                                        _vm._v("Municipality: "),
+                                        _vm.errors.municipality_id
+                                          ? _c(
+                                              "span",
+                                              { staticClass: "haveerror" },
+                                              [
+                                                _vm._v(
+                                                  "(" +
+                                                    _vm._s(
+                                                      _vm.errors
+                                                        .municipality_id[0]
+                                                    ) +
+                                                    ")"
+                                                ),
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("multiselect", {
+                                        attrs: {
+                                          options: _vm.municipalities,
+                                          "allow-empty": false,
+                                          "show-labels": false,
+                                          label: "name",
+                                          "track-by": "id",
+                                          placeholder: "Select Municipality",
+                                        },
+                                        model: {
+                                          value: _vm.user.municipality_id,
+                                          callback: function ($$v) {
+                                            _vm.$set(
+                                              _vm.user,
+                                              "municipality_id",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "user.municipality_id",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              )
+                            : _vm._e(),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -47876,7 +48049,31 @@ var render = function () {
                 "table",
                 { staticClass: "table table-centered table-nowrap" },
                 [
-                  _vm._m(0),
+                  _c("thead", { staticClass: "thead-light" }, [
+                    _c("tr", [
+                      _c("th", { staticStyle: { width: "2%" } }),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Name")]),
+                      _vm._v(" "),
+                      _vm.type == "Super Administrator"
+                        ? _c("th", { staticClass: "text-center" }, [
+                            _vm._v("Municipality"),
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-center" }, [
+                        _vm._v("Contact Information"),
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-center" }, [
+                        _vm._v("Status"),
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "text-center" }, [
+                        _vm._v("Action"),
+                      ]),
+                    ]),
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -47895,7 +48092,7 @@ var render = function () {
                         _c("td", [
                           _c(
                             "h5",
-                            { staticClass: "font-size-13 mb-1 text-dark" },
+                            { staticClass: "font-size-13 mb-0 text-dark" },
                             [_vm._v(_vm._s(user.name))]
                           ),
                           _vm._v(" "),
@@ -47906,10 +48103,18 @@ var render = function () {
                           ),
                         ]),
                         _vm._v(" "),
+                        _vm.type == "Super Administrator"
+                          ? _c(
+                              "td",
+                              { staticClass: "text-center font-weight-bold" },
+                              [_vm._v(_vm._s(user.municipality.name))]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
                         _c("td", { staticClass: "text-center" }, [
                           _c(
                             "h5",
-                            { staticClass: "font-size-12 mb-1 text-dark" },
+                            { staticClass: "font-size-12 mb-0 text-dark" },
                             [_vm._v(_vm._s(user.email))]
                           ),
                           _vm._v(" "),
@@ -47974,7 +48179,7 @@ var render = function () {
                             [_c("i", { staticClass: "bx bx-edit-alt" })]
                           ),
                           _vm._v(" "),
-                          _vm._m(1, true),
+                          _vm._m(0, true),
                         ]),
                       ])
                     }),
@@ -48022,26 +48227,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "thead-light" }, [
-      _c("tr", [
-        _c("th", { staticStyle: { width: "2%" } }),
-        _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [
-          _vm._v("Contact Information"),
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Status")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Action")]),
-      ]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -49686,7 +49871,59 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row justify-content-center" }, [
-            _c("div", { staticClass: "col-md-8 col-lg-6 col-xl-5" }, [
+            _c("div", { staticClass: "col-md-10" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "form-group",
+                  staticStyle: { "margin-top": "10px" },
+                },
+                [
+                  _c("div", { staticClass: "custom-control custom-checkbox" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.died,
+                          expression: "died",
+                        },
+                      ],
+                      staticClass: "custom-control-input",
+                      attrs: { type: "checkbox", id: "formrow-customCheck" },
+                      domProps: {
+                        checked: Array.isArray(_vm.died)
+                          ? _vm._i(_vm.died, null) > -1
+                          : _vm.died,
+                      },
+                      on: {
+                        change: function ($event) {
+                          var $$a = _vm.died,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.died = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.died = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.died = $$c
+                          }
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm._m(1),
+                  ]),
+                ]
+              ),
+              _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("input", {
                   directives: [
@@ -49756,6 +49993,19 @@ var staticRenderFns = [
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       ),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "custom-control-label font-size-12",
+        attrs: { for: "formrow-customCheck" },
+      },
+      [_vm._v("Patient "), _c("b", [_vm._v("Died")]), _vm._v("?")]
+    )
   },
 ]
 render._withStripped = true
@@ -50148,26 +50398,24 @@ var render = function () {
                           ]),
                           _vm._v(" "),
                           _c("td", { staticClass: "text-right" }, [
-                            list.is_positive == null
-                              ? _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-light waves-effect waves-light mr-2",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function ($event) {
-                                        return _vm.result(list)
-                                      },
-                                    },
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-light waves-effect waves-light mr-2",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.result(list)
                                   },
-                                  [
-                                    _c("i", {
-                                      staticClass: "text-danger bx bxs-virus",
-                                    }),
-                                  ]
-                                )
-                              : _vm._e(),
+                                },
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "text-danger bx bxs-virus",
+                                }),
+                              ]
+                            ),
                             _vm._v(" "),
                             _c(
                               "button",
@@ -53938,7 +54186,7 @@ var render = function () {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(list.completion_at))]),
                           _vm._v(" "),
-                          list.is_positive
+                          list.is_positive || list.is_positive == null
                             ? _c("td", [
                                 _c(
                                   "span",

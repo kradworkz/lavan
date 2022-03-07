@@ -64,7 +64,7 @@ Route::prefix('request')->group(function(){
     Route::post('/admission/test', 'AdmissionController@test');
 
     Route::get('/dashboard/tests', 'DashboardController@testLists');
-
+    Route::get('/dashboard/releasing', 'DashboardController@releasing');
 
 });
 

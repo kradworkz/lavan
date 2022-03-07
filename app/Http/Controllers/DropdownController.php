@@ -21,7 +21,8 @@ class DropdownController extends Controller
     public function lists($type)
     {
         $query = Dropdown::query();
-        $data = $query->where('type',$type)->get();
+        ($type != '-') ? $query->where('type',$type) : '';
+        $data = $query->get();
         return DefaultResource::collection($data);
     }
 

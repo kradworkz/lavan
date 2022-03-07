@@ -13,25 +13,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        
-        \DB::table('municipalities')->insert([
-            'name' => 'Siocon'
-        ]);
-        
+         
         \DB::table('users')->insert([
             'email' => 'admin@lavan.com',
             'password' => bcrypt('123456789'),
-            'type' => 'Administrator',
+            'type' => 'Super Administrator',
             'is_active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
             'email_verified_at' => now(),
             'mobile' => '09123456789',
-            'name' => 'Covid Lavan',
+            'name' => 'Super Administrator',
             'gender' => 'Male',
-            'municipality_id' => 1,
         ]);
 
+        \DB::table('municipalities')->insert([
+            'name' => 'Siocon'
+        ]);
         $this->call(BarangayTableSeeder::class);
 
         $this->call(FacilitiesTableSeeder::class);

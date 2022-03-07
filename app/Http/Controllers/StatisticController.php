@@ -79,11 +79,17 @@ class StatisticController extends Controller
     }
 
     public function cases(){
-        $statuses = Dropdown::where('type','Status')->where('name','!=','Clearedt')->orderBy('id','ASC')->get();
+        $municipality_id = \Auth::user()->municipality_id;
+        $statuses = Dropdown::where('type','Status')->where('name','!=','Released')->orderBy('id','ASC')->get();
         $icons = ['bx bxs-virus','bx bxs-virus-block', 'bx bxs-ghost'];
         $array = [];
         foreach($statuses as $index => $status){
-            $count = PatientAdmission::where('status_id',$status->id)->count();
+            $count = PatientAdmission::where('status_id',$status->id)
+            ->whereHas('patient',function ($query) use ($municipality_id) {
+                $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                    $query->where('municipality_id',$municipality_id);
+                });
+            })->count();
             $array[] = [
                 'id' => $status->id,
                 'name' => $status->name,
@@ -96,10 +102,16 @@ class StatisticController extends Controller
     }
 
     public function isolated(){
+        $municipality_id = \Auth::user()->municipality_id;
         $categories = Dropdown::where('type','Category')->orderBy('id','ASC')->get();
         $array = []; $c = 0;
         foreach($categories as $index => $category){
-            $count = PatientAdmission::where('status_id',$category->id)->where('is_released',0)->count();
+            $count = PatientAdmission::where('status_id',$category->id)
+            ->whereHas('patient',function ($query) use ($municipality_id) {
+                $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                    $query->where('municipality_id',$municipality_id);
+                });
+            })->where('is_released',0)->count();
             $array[] = [
                 'id' => $category->id,
                 'name' => $category->name,
@@ -112,9 +124,25 @@ class StatisticController extends Controller
     }
 
     public function total(){
-        $active = PatientAdmission::where('is_positive',1)->count();
-        $isolated = PatientAdmission::whereNull('is_positive')->where('is_released',0)->count();
-        $home = PatientAdmission::where('is_home',1)->where('is_released',0)->count();
+        $municipality_id = \Auth::user()->municipality_id;
+        $active = PatientAdmission::where('is_positive',1)
+        ->whereHas('patient',function ($query) use ($municipality_id) {
+            $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                $query->where('municipality_id',$municipality_id);
+            });
+        })->count();
+        $isolated = PatientAdmission::whereNull('is_positive')
+        ->whereHas('patient',function ($query) use ($municipality_id) {
+            $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                $query->where('municipality_id',$municipality_id);
+            });
+        })->where('is_released',0)->count();
+        $home = PatientAdmission::where('is_home',1)
+        ->whereHas('patient',function ($query) use ($municipality_id) {
+            $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                $query->where('municipality_id',$municipality_id);
+            });
+        })->where('is_released',0)->count();
       
         $data = [
             'active' => $active,

@@ -44,11 +44,11 @@
                                         </multiselect>
                                     </div>
                                 </div>
-                                <div class="col-md-6" style="margin-top: -7px;">
+                                <div v-if="type == 'Super Administrator'" class="col-md-6" style="margin-top: -7px;">
                                     <div class="form-group">
-                                        <label>Municipality: <span v-if="errors.municipality" class="haveerror">({{ errors.municipality[0] }})</span></label>
+                                        <label>Municipality: <span v-if="errors.municipality_id" class="haveerror">({{ errors.municipality_id[0] }})</span></label>
                                           <multiselect 
-                                            v-model="user.municipality" 
+                                            v-model="user.municipality_id" 
                                             :options="municipalities"
                                             :allow-empty="false"
                                             :show-labels="false"
@@ -95,7 +95,6 @@
     import Loading from 'vue-loading-overlay';
     import Multiselect from 'vue-multiselect';
     export default {
-        props : ['type'],
         data(){
             return {
                 currentUrl: window.location.origin,
@@ -107,18 +106,24 @@
                     type: '',
                     gender: '', 
                     mobile: '',
-                    municipality: ''
+                    municipality_id: ''
                 },
-                roles: ['Administrator','Contact Tracer','Isolation Manager'],
+                roles: '',
                 municipalities: [],
                 editable: false,
                 isLoading: false,
-                fullPage: true
+                fullPage: true,
+                type: window.User.type
             }
         },
 
         created(){
             this.fetchMunicipality();
+            if(window.User.type == 'Super Administrator'){
+                this.roles = ['Administrator'];      
+            }else{
+                this.roles = ['Contact Tracer','Isolation Manager'];
+            }
         },
         
         methods : {
@@ -139,7 +144,7 @@
                     email: this.user.email,
                     gender: this.user.gender,
                     mobile: this.user.mobile,
-                    municipality_id: this.user.municipality.id,
+                    municipality_id: this.user.municipality_id.id,
                     type: this.user.type,
                     editable: this.editable
                 })

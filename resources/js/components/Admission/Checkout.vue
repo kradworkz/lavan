@@ -14,7 +14,13 @@
                 
                 <p class="text-center text-muted">Please type "confirm"</p>
                 <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="col-md-10">
+                        <div class="form-group" style="margin-top: 10px;">         
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" v-model="died" class="custom-control-input" id="formrow-customCheck">
+                                <label class="custom-control-label font-size-12" for="formrow-customCheck">Patient <b>Died</b>?</label>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <input type="text" class="form-control" v-model="confirm">
                         </div>
@@ -36,7 +42,8 @@
                 currentUrl: window.location.origin,
                 errors: [],
                 user: '',
-                confirm: ''
+                confirm: '',
+                died: false
             }
         },
 
@@ -48,6 +55,7 @@
             checkout(){
                 axios.post(this.currentUrl + '/request/admission/checkout', {
                     id: this.user.id,
+                    died: this.died,
                 })
                 .then(response => {
                     this.$emit('status', response.data);

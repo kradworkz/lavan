@@ -98,7 +98,7 @@
                                     </div>
                                 </td>
                                 <td class="text-right">
-                                    <button v-if="list.is_positive == null" type="button" @click="result(list)" class="btn btn-light waves-effect waves-light mr-2"><i class='text-danger bx bxs-virus'></i></button>
+                                    <button type="button" @click="result(list)" class="btn btn-light waves-effect waves-light mr-2"><i class='text-danger bx bxs-virus'></i></button>
                                     <button type="button" @click="checkout(list)" class="btn btn-light waves-effect waves-light mr-2"><i class='bx bx-exit'></i></button>
                                    <!-- <button @click="checkout(list)" type="button" class="btn btn-sm btn-primary w-sm waves-effect waves-light">Checkout</button> -->
                                 </td>
@@ -249,7 +249,7 @@ export default {
         },
 
         fetchStatus(){
-            axios.get(this.currentUrl + '/request/dropdowns/Status')
+            axios.get(this.currentUrl + '/request/dropdowns/-')
             .then(response => {
                 this.statuses = response.data.data;
             })
@@ -276,7 +276,7 @@ export default {
 
             let vm = this; let key;
             (this.keyword != '' && this.keyword != null) ? key = this.keyword : key = '-';
-            this.fetch(this.currentUrl + '/request/admissions/'+key+'/'+this.category+'/'+this.status+'/'+this.counts);
+            this.fetch(this.currentUrl + '/request/admissions/'+key+'/'+this.status+'/'+this.counts);
         },
 
     }, 

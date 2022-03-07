@@ -40,7 +40,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-   
+    public function getNameAttribute($value)
+    {
+        return ucwords($value);
+    }
+
+    public function municipality()
+    {
+        return $this->belongsTo('App\Models\Municipality', 'municipality_id', 'id');
+    }
 
     public function getUpdatedAtAttribute($value)
     {

@@ -9,21 +9,21 @@ const routes = [{
         component: () =>
             import ('../Pages/Admission.vue'),
         name: 'admission',
-        beforeEnter: admin
+        beforeEnter: main
     },
     {
         path: '/tests',
         component: () =>
             import ('../Pages/Tests.vue'),
         name: 'tests',
-        beforeEnter: admin
+        beforeEnter: main
     },
     {
         path: '/user',
         component: () =>
             import ('../Pages/User.vue'),
         name: 'user',
-        beforeEnter: admin
+        beforeEnter: both
     },
     {
         path: '/logs',
@@ -37,21 +37,21 @@ const routes = [{
         component: () =>
             import ('../Pages/Dropdown.vue'),
         name: 'dropdowns',
-        beforeEnter: admin
+        beforeEnter: superadmin
     },
     {
         path: '/municipalities',
         component: () =>
             import ('../Pages/Municipality.vue'),
         name: 'municipalities',
-        beforeEnter: admin
+        beforeEnter: superadmin
     },
     {
         path: '/municipality/:id',
         component: () =>
             import ('../Pages/MuniProfile.vue'),
         name: 'municipality/profile',
-        beforeEnter: admin
+        beforeEnter: superadmin
     },
 
     // Main Iso
@@ -61,7 +61,7 @@ const routes = [{
         component: () =>
             import ('../Pages/Facility.vue'),
         name: 'facilities',
-        beforeEnter: admin
+        beforeEnter: adminiso
     },
     {
         path: '/facility/:id',
@@ -75,18 +75,25 @@ const routes = [{
         component: () =>
             import ('../Pages/Patient.vue'),
         name: 'patients',
-        beforeEnter: admin
+        beforeEnter: main
     },
     {
         path: '/patient/:id',
         component: () =>
             import ('../Pages/Profile.vue'),
         name: 'patient/profile',
-        beforeEnter: admin
+        beforeEnter: main
     },
 
 
 ];
+
+function superadmin(to, from, next) {
+    (window.User.type == "Super Administrator") ? next(true): next({
+        path: '/home',
+        compone
+    });
+}
 
 function admin(to, from, next) {
     (window.User.type == "Administrator") ? next(true): next({
@@ -95,8 +102,23 @@ function admin(to, from, next) {
     });
 }
 
+function adminiso(to, from, next) {
+    (window.User.type == "Administrator" || window.User.type == "Isolation Manager") ? next(true): next({
+        path: '/home',
+        compone
+    });
+}
+
+function both(to, from, next) {
+    (window.User.type == "Administrator" || window.User.type == "Super Administrator") ? next(true): next({
+        path: '/home',
+        compone
+    });
+}
+
+
 function main(to, from, next) {
-    (window.User.type == "Isolation Manager") ? next(true): next({
+    (window.User.type == "Isolation Manager" || window.User.type == "Contact Tracer") ? next(true): next({
         path: '/home',
         compone
     });

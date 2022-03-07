@@ -18,6 +18,11 @@ class Municipality extends Model
         return $this->hasMany('App\Models\Barangay', 'municipality_id');
     } 
 
+    public function users()
+    {
+        return $this->hasMany('App\Models\User', 'municipality_id');
+    } 
+
     public function getNameAttribute($value){
         return ucwords(strtolower($value));
     }

@@ -35,7 +35,39 @@
             </div>
         </div>
 
-        <div class="card" :style="{ height: (height-120) + 'px' }">
+        
+        
+    </div>
+    <!-- end col -->
+
+    <div class="col-xl-8">
+        <div class="row">
+            <div class="col-lg-4" v-for="c in cases" v-bind:key="c.id">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        
+                        <div class="d-flex flex-wrap">
+                            <div class="mr-3">
+                                <p class="text-muted mb-2">{{c.name}}</p>
+                                <h5 class="mb-0">{{c.count}}</h5>
+                            </div>
+
+                            <div class="avatar-sm ml-auto">
+                                <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
+                                   <i :class="'text-'+c.color+' '+c.icon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+    <div class="col-xl-6">
+        <div class="card" style="height: 370px;">
             <div class="card-body">
                 <h5 class="float-right mb-0 mr-2">{{ total.home }}</h5>
                 <h6 class="font-size-12 font-weight-bold mb-1 text-muted">HOME ISOLATION</h6>
@@ -67,37 +99,11 @@
                 </div>
             </div>
         </div>
-        
     </div>
-    <!-- end col -->
 
-    <div class="col-xl-8">
-        <div class="row">
-            <div class="col-lg-4" v-for="c in cases" v-bind:key="c.id">
-                <div class="card mini-stats-wid">
-                    <div class="card-body">
-                        
-                        <div class="d-flex flex-wrap">
-                            <div class="mr-3">
-                                <p class="text-muted mb-2">{{c.name}}</p>
-                                <h5 class="mb-0">{{c.count}}</h5>
-                            </div>
+    <div class="col-xl-6">
 
-                            <div class="avatar-sm ml-auto">
-                                <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
-                                   <i :class="'text-'+c.color+' '+c.icon"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end row -->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card" :style="{ height: (height-120) + 'px' }">
+        <div class="card" style="height: 370px;">
                     <div class="card-body">
                         <!-- <div class="float-right">
                             <select class="custom-select custom-select-sm ml-2">
@@ -156,12 +162,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="font-size-12 font-weight-bold mb-4 text-muted">PENDING SWAB RESULTS</h6>
-                        <div class="table-responsive mt-2 mb-4" :style="{ height: (height-222) + 'px' }" style="overflow: auto;">
+    </div>
+
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="font-size-12 font-weight-bold mb-4 text-muted">PENDING SWAB RESULTS</h6>
+                        <div class="table-responsive mt-2 mb-4" style="overflow: auto; height: 267px;">
                             <table class="table table-centered mb-0">
                                 <tbody>
                                     <tr v-for="test in tests" v-bind:key="test.id">
@@ -178,14 +185,40 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="font-size-12 font-weight-bold mb-4 text-muted">FOR RELEASE</h6>
+                <div class="table-responsive mt-2 mb-4" style="overflow: auto; height: 267px;">
+                    <table class="table table-centered mb-0">
+                        <tbody>
+                            <tr v-for="test in releasings" v-bind:key="test.id">
+                                <td>
+                                    <h5 class="font-size-13 mb-0 text-dark">{{test.patient.lastname}}, {{test.patient.firstname}} {{test.patient.middlename[0]}}</h5>
+                                </td>
+                                <td class="font-weight-bold">{{test.started_at}} - {{test.completion_at}}</td>
+                                <td class="text-center"><span :class="'badge badge-bg badge-'+test.status.color">{{test.status.name}}</span></td>
+                                <td class="text-right">
+                                    <button @click="checkout(test)" type="button" class="btn btn-light btn-sm waves-effect waves-light">Release</button>
+                                </td>
+                            </tr>
+                            <tr class="text-center text-muted" v-if="releasings.length == 0">No admission found</tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
      <div class="modal fade exampleModal" id="result1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <admission-test @status="message" ref="result"></admission-test>
+        <admission-test @status="message2" ref="result"></admission-test>
+    </div>
+
+     <div class="modal fade exampleModal" id="checkout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <admission-checkout @status="message" ref="checkout"></admission-checkout>
     </div>
 
 </div>
@@ -207,7 +240,8 @@ export default {
             cases: [],
             category: [],
             total: {},
-            tests: []
+            tests: [],
+            releasings: []
         }
     },
 
@@ -238,6 +272,7 @@ export default {
         this.fetchCategory();
         this.fetchTotal();
         this.fetchTests();
+        this.fetchReleasing();
     },
 
     methods: {
@@ -248,6 +283,15 @@ export default {
             })
             .catch(err => console.log(err));
         },
+
+        fetchReleasing(){
+            axios.get(this.currentUrl + '/request/dashboard/releasing')
+            .then(response => {
+                this.releasings = response.data.data;
+            })
+            .catch(err => console.log(err));
+        },
+
 
         fetchFacility(){
                 axios.get(this.currentUrl + '/statistics/facility')
@@ -286,9 +330,21 @@ export default {
             this.$refs.result.set(user);
         },
 
-        message(){
+        message2(){
             this.fetchTests();
-        }
+        },
+
+        message(list){
+            let i = this.releasings.map(item => item.id).indexOf(list); 
+            this.releasings.splice(i, 1);
+        },
+
+        checkout(id){
+            $("#checkout").modal('show');
+            this.$refs.checkout.set(id);
+            this.editable = 'checkout';
+        },
+
     }, 
 }
 </script>

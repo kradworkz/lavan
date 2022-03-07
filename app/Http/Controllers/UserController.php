@@ -13,11 +13,15 @@ use App\Jobs\EmailNewAccount;
 class UserController extends Controller
 {
     public function lists($keyword,$count){
+        (\Auth::user()->type == 'Super Administrator') ? $type = ['Administrator'] : $type = ['Contact Tracer', 'Isolation Manager'];
         ($keyword == '-') ? $keyword = '' : $keyword;
-        $data = User::where(function ($query) use ($keyword) {
+        $query = User::query();
+        $query->with('municipality')->where(function ($query) use ($keyword) {
             $query->where('email', 'LIKE', '%'.$keyword.'%')->orWhere('name','LIKE','%'.$keyword.'%');
-        })
-        ->orderBy('id','DESC')->paginate($count);
+        });
+        (\Auth::user()->type == 'Administrator') ? $query->where('municipality_id',\Auth::user()->municipality_id) : '';
+        $query->whereIn('type',$type);
+        $data = $query->orderBy('id','DESC')->paginate($count);
         return UserResource::collection($data);
     }
 
@@ -28,8 +32,10 @@ class UserController extends Controller
                 $data->update($request->except('editable'));
                 return $data;
             }else{
-                $data = User::create(array_merge($request->all(), ['password' => bcrypt('lavan2022')]));
+                (\Auth::user()->type == 'Administrator') ? $municipality = \Auth::user()->municipality_id : $municipality = $request->municipality_id;
+                $data = User::create(array_merge($request->all(), ['municipality_id' => $municipality,'password' => bcrypt('lavan2022')]));
                 // EmailNewAccount::dispatch($data->id)->delay(now()->addSeconds(10));
+                $data = User::with('municipality')->where('id',$data->id)->first();
                 return $data;
             }
         });

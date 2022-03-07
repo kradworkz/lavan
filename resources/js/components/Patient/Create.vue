@@ -164,7 +164,7 @@
             create(){
                 this.isLoading = true;
                 axios.post(this.currentUrl + '/request/patient/store', {
-                    id: this.id,
+                    id: this.user.id,
                     firstname: this.user.firstname,
                     middlename: this.user.middlename,
                     lastname: this.user.lastname,
@@ -196,7 +196,8 @@
                 });
             },
 
-            edit(list,editable){
+            edit(list){
+                this.editable = true;
                 this.user = list;
                 this.user.barangay_id = list.barangay;
             },

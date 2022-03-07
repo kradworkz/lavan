@@ -84,7 +84,7 @@
                                 </td>
                                 <td>{{list.started_at}}</td>
                                 <td>{{list.completion_at}}</td>
-                                <td v-if="list.is_positive"><span :class="'badge badge-bg badge-'+list.status.color">{{list.status.name}}</span></td>
+                                <td v-if="list.is_positive || list.is_positive == null"><span :class="'badge badge-bg badge-'+list.status.color">{{list.status.name}}</span></td>
                                 <td v-else><span :class="'badge badge-bg badge-success'">Released</span></td>
                             </tr>
                         </tbody>

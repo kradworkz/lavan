@@ -130,7 +130,7 @@
                                         <div class="form-group" style="margin-top: -13px;">         
                                             <div class="custom-form">
                                                 <label>Vaccine: <span v-if="errors.vaccine" class="haveerror">({{ errors.vaccine[0] }})</span></label>
-                                            <input type="text" class="form-control" v-model="user.vaccine" style="text-transform: capitalize;">
+                                                 <input type="text" class="form-control" v-model="user.vaccine" style="text-transform: capitalize;">
                                             </div>
                                         </div>
                                     </div>

@@ -38,6 +38,7 @@
                             <tr>
                                 <th style="width: 2%;"></th>
                                 <th>Name</th>
+                                <th v-if="type == 'Super Administrator'" class="text-center">Municipality</th>
                                 <th class="text-center">Contact Information</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Action</th>
@@ -51,11 +52,12 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h5 class="font-size-13 mb-1 text-dark">{{user.name}}</h5>
+                                    <h5 class="font-size-13 mb-0 text-dark">{{user.name}}</h5>
                                     <p class="font-size-12 text-muted mb-0">{{user.type}}</p>
                                 </td>
+                                <td v-if="type == 'Super Administrator'" class="text-center font-weight-bold">{{user.municipality.name}}</td>
                                 <td class="text-center">
-                                    <h5 class="font-size-12 mb-1 text-dark">{{user.email}}</h5>
+                                    <h5 class="font-size-12 mb-0 text-dark">{{user.email}}</h5>
                                     <p class="font-size-12 text-muted mb-0">{{user.mobile}}</p>
                                 </td>
                                 <td class="text-center">
@@ -98,6 +100,7 @@ export default {
             pagination: {},
             keyword: '',
             users : [],
+            type: window.User.type
         }
     },
 
