@@ -164,7 +164,7 @@
                 </div>
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-6" v-if="type == 'Isolation Manager' || type == 'Contact Tracer'">
         <div class="card">
             <div class="card-body">
                 <h6 class="font-size-12 font-weight-bold mb-4 text-muted">PENDING SWAB RESULTS</h6>
@@ -188,7 +188,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-6">
+    <div class="col-xl-6" v-if="type == 'Isolation Manager' || type == 'Contact Tracer'">
         <div class="card">
             <div class="card-body">
                 <h6 class="font-size-12 font-weight-bold mb-4 text-muted">FOR RELEASE</h6>
@@ -241,7 +241,8 @@ export default {
             category: [],
             total: {},
             tests: [],
-            releasings: []
+            releasings: [],
+            type: window.User.type
         }
     },
 

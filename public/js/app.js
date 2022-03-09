@@ -2380,6 +2380,66 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Admin.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Admin.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      currentUrl: window.location.origin,
+      lists: []
+    };
+  },
+  created: function created() {
+    this.fetchAdmin();
+  },
+  methods: {
+    fetchAdmin: function fetchAdmin() {
+      var _this = this;
+
+      axios.get(this.currentUrl + '/request/dashboard/admin').then(function (response) {
+        _this.lists = response.data;
+        console.log(_this.lists);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Index.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Index.vue?vue&type=script&lang=js& ***!
@@ -2633,7 +2693,8 @@ __webpack_require__.r(__webpack_exports__);
       category: [],
       total: {},
       tests: [],
-      releasings: []
+      releasings: [],
+      type: window.User.type
     };
   },
   computed: {
@@ -3937,7 +3998,7 @@ __webpack_require__.r(__webpack_exports__);
     create: function create() {
       var _this = this;
 
-      axios.post(this.currentUrl + '/request/admin/user/store', {
+      axios.post(this.currentUrl + '/request/user/store', {
         id: this.user.id,
         is_active: this.user.is_active == 1 ? 0 : 1,
         editable: true
@@ -7096,6 +7157,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
 
 Vue.component('home-index', (__webpack_require__(/*! ./components/Admin/Home/Index.vue */ "./resources/js/components/Admin/Home/Index.vue")["default"]));
+Vue.component('home-admin', (__webpack_require__(/*! ./components/Admin/Home/Admin.vue */ "./resources/js/components/Admin/Home/Admin.vue")["default"]));
 Vue.component('dropdown-index', (__webpack_require__(/*! ./components/Admin/Dropdown/Index.vue */ "./resources/js/components/Admin/Dropdown/Index.vue")["default"]));
 Vue.component('dropdown-create', (__webpack_require__(/*! ./components/Admin/Dropdown/Create.vue */ "./resources/js/components/Admin/Dropdown/Create.vue")["default"]));
 Vue.component('muni-index', (__webpack_require__(/*! ./components/Admin/Municipality/Index.vue */ "./resources/js/components/Admin/Municipality/Index.vue")["default"]));
@@ -43110,6 +43172,45 @@ component.options.__file = "resources/js/components/Admin/Dropdown/Index.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Admin/Home/Admin.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/Admin/Home/Admin.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Admin_vue_vue_type_template_id_5003706c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Admin.vue?vue&type=template&id=5003706c& */ "./resources/js/components/Admin/Home/Admin.vue?vue&type=template&id=5003706c&");
+/* harmony import */ var _Admin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Admin.vue?vue&type=script&lang=js& */ "./resources/js/components/Admin/Home/Admin.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Admin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Admin_vue_vue_type_template_id_5003706c___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Admin_vue_vue_type_template_id_5003706c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Admin/Home/Admin.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Admin/Home/Index.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/Admin/Home/Index.vue ***!
@@ -44117,6 +44218,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Admin/Home/Admin.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/Admin/Home/Admin.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Admin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Admin.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Admin.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Admin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Admin/Home/Index.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/Admin/Home/Index.vue?vue&type=script&lang=js& ***!
@@ -44547,6 +44664,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_40dadaff___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_40dadaff___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Index.vue?vue&type=template&id=40dadaff& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Dropdown/Index.vue?vue&type=template&id=40dadaff&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/Home/Admin.vue?vue&type=template&id=5003706c&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/Admin/Home/Admin.vue?vue&type=template&id=5003706c& ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Admin_vue_vue_type_template_id_5003706c___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Admin_vue_vue_type_template_id_5003706c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Admin_vue_vue_type_template_id_5003706c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Admin.vue?vue&type=template&id=5003706c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Admin.vue?vue&type=template&id=5003706c&");
 
 
 /***/ }),
@@ -45597,6 +45731,61 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Admin.vue?vue&type=template&id=5003706c&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Admin.vue?vue&type=template&id=5003706c& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-6" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("p", { staticClass: "text-muted text-truncate mb-2" }, [
+              _vm._v("No. of Municipalities"),
+            ]),
+            _vm._v(" "),
+            _c("h5", { staticClass: "mb-0" }, [
+              _vm._v(_vm._s(_vm.lists.municipality)),
+            ]),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-6" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("p", { staticClass: "text-muted text-truncate mb-2" }, [
+              _vm._v("No. of Facility"),
+            ]),
+            _vm._v(" "),
+            _c("h5", { staticClass: "mb-0" }, [
+              _vm._v(_vm._s(_vm.lists.facility)),
+            ]),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Index.vue?vue&type=template&id=b2e21866&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Admin/Home/Index.vue?vue&type=template&id=b2e21866& ***!
@@ -45906,180 +46095,196 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-xl-6" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c(
-            "h6",
-            { staticClass: "font-size-12 font-weight-bold mb-4 text-muted" },
-            [_vm._v("PENDING SWAB RESULTS")]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "table-responsive mt-2 mb-4",
-              staticStyle: { overflow: "auto", height: "267px" },
-            },
-            [
-              _c("table", { staticClass: "table table-centered mb-0" }, [
-                _c(
-                  "tbody",
-                  [
-                    _vm._l(_vm.tests, function (test) {
-                      return _c("tr", { key: test.id }, [
-                        _c("td", [
-                          _c(
-                            "h5",
-                            { staticClass: "font-size-13 mb-0 text-dark" },
-                            [
-                              _vm._v(
-                                _vm._s(test.admission.patient.lastname) +
-                                  ", " +
-                                  _vm._s(test.admission.patient.firstname) +
-                                  " " +
-                                  _vm._s(test.admission.patient.middlename[0])
+    _vm.type == "Isolation Manager" || _vm.type == "Contact Tracer"
+      ? _c("div", { staticClass: "col-xl-6" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "h6",
+                {
+                  staticClass: "font-size-12 font-weight-bold mb-4 text-muted",
+                },
+                [_vm._v("PENDING SWAB RESULTS")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "table-responsive mt-2 mb-4",
+                  staticStyle: { overflow: "auto", height: "267px" },
+                },
+                [
+                  _c("table", { staticClass: "table table-centered mb-0" }, [
+                    _c(
+                      "tbody",
+                      [
+                        _vm._l(_vm.tests, function (test) {
+                          return _c("tr", { key: test.id }, [
+                            _c("td", [
+                              _c(
+                                "h5",
+                                { staticClass: "font-size-13 mb-0 text-dark" },
+                                [
+                                  _vm._v(
+                                    _vm._s(test.admission.patient.lastname) +
+                                      ", " +
+                                      _vm._s(test.admission.patient.firstname) +
+                                      " " +
+                                      _vm._s(
+                                        test.admission.patient.middlename[0]
+                                      )
+                                  ),
+                                ]
                               ),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            { staticClass: "font-size-11 text-muted mb-0" },
-                            [_vm._v(_vm._s(test.created_at))]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "font-weight-bold" }, [
-                          _vm._v(
-                            _vm._s(test.is_rtpcr == 1 ? "RT-PCR" : "Antigen")
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-right" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass:
-                                "btn btn-light btn-sm waves-effect waves-light",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function ($event) {
-                                  return _vm.addresult(test)
+                              _vm._v(" "),
+                              _c(
+                                "p",
+                                { staticClass: "font-size-11 text-muted mb-0" },
+                                [_vm._v(_vm._s(test.created_at))]
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "font-weight-bold" }, [
+                              _vm._v(
+                                _vm._s(
+                                  test.is_rtpcr == 1 ? "RT-PCR" : "Antigen"
+                                )
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-right" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-light btn-sm waves-effect waves-light",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.addresult(test)
+                                    },
+                                  },
                                 },
-                              },
-                            },
-                            [_vm._v("Add Result")]
-                          ),
-                        ]),
-                      ])
-                    }),
-                    _vm._v(" "),
-                    _vm.tests.length == 0
-                      ? _c("tr", { staticClass: "text-center text-muted" }, [
-                          _vm._v("No pending results"),
-                        ])
-                      : _vm._e(),
-                  ],
-                  2
-                ),
-              ]),
-            ]
-          ),
-        ]),
-      ]),
-    ]),
+                                [_vm._v("Add Result")]
+                              ),
+                            ]),
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _vm.tests.length == 0
+                          ? _c(
+                              "tr",
+                              { staticClass: "text-center text-muted" },
+                              [_vm._v("No pending results")]
+                            )
+                          : _vm._e(),
+                      ],
+                      2
+                    ),
+                  ]),
+                ]
+              ),
+            ]),
+          ]),
+        ])
+      : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "col-xl-6" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c(
-            "h6",
-            { staticClass: "font-size-12 font-weight-bold mb-4 text-muted" },
-            [_vm._v("FOR RELEASE")]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "table-responsive mt-2 mb-4",
-              staticStyle: { overflow: "auto", height: "267px" },
-            },
-            [
-              _c("table", { staticClass: "table table-centered mb-0" }, [
-                _c(
-                  "tbody",
-                  [
-                    _vm._l(_vm.releasings, function (test) {
-                      return _c("tr", { key: test.id }, [
-                        _c("td", [
-                          _c(
-                            "h5",
-                            { staticClass: "font-size-13 mb-0 text-dark" },
-                            [
-                              _vm._v(
-                                _vm._s(test.patient.lastname) +
-                                  ", " +
-                                  _vm._s(test.patient.firstname) +
-                                  " " +
-                                  _vm._s(test.patient.middlename[0])
+    _vm.type == "Isolation Manager" || _vm.type == "Contact Tracer"
+      ? _c("div", { staticClass: "col-xl-6" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "h6",
+                {
+                  staticClass: "font-size-12 font-weight-bold mb-4 text-muted",
+                },
+                [_vm._v("FOR RELEASE")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "table-responsive mt-2 mb-4",
+                  staticStyle: { overflow: "auto", height: "267px" },
+                },
+                [
+                  _c("table", { staticClass: "table table-centered mb-0" }, [
+                    _c(
+                      "tbody",
+                      [
+                        _vm._l(_vm.releasings, function (test) {
+                          return _c("tr", { key: test.id }, [
+                            _c("td", [
+                              _c(
+                                "h5",
+                                { staticClass: "font-size-13 mb-0 text-dark" },
+                                [
+                                  _vm._v(
+                                    _vm._s(test.patient.lastname) +
+                                      ", " +
+                                      _vm._s(test.patient.firstname) +
+                                      " " +
+                                      _vm._s(test.patient.middlename[0])
+                                  ),
+                                ]
                               ),
-                            ]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "font-weight-bold" }, [
-                          _vm._v(
-                            _vm._s(test.started_at) +
-                              " - " +
-                              _vm._s(test.completion_at)
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-center" }, [
-                          _c(
-                            "span",
-                            {
-                              class:
-                                "badge badge-bg badge-" + test.status.color,
-                            },
-                            [_vm._v(_vm._s(test.status.name))]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-right" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass:
-                                "btn btn-light btn-sm waves-effect waves-light",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function ($event) {
-                                  return _vm.checkout(test)
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "font-weight-bold" }, [
+                              _vm._v(
+                                _vm._s(test.started_at) +
+                                  " - " +
+                                  _vm._s(test.completion_at)
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-center" }, [
+                              _c(
+                                "span",
+                                {
+                                  class:
+                                    "badge badge-bg badge-" + test.status.color,
                                 },
-                              },
-                            },
-                            [_vm._v("Release")]
-                          ),
-                        ]),
-                      ])
-                    }),
-                    _vm._v(" "),
-                    _vm.releasings.length == 0
-                      ? _c("tr", { staticClass: "text-center text-muted" }, [
-                          _vm._v("No admission found"),
-                        ])
-                      : _vm._e(),
-                  ],
-                  2
-                ),
-              ]),
-            ]
-          ),
-        ]),
-      ]),
-    ]),
+                                [_vm._v(_vm._s(test.status.name))]
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-right" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-light btn-sm waves-effect waves-light",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.checkout(test)
+                                    },
+                                  },
+                                },
+                                [_vm._v("Release")]
+                              ),
+                            ]),
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _vm.releasings.length == 0
+                          ? _c(
+                              "tr",
+                              { staticClass: "text-center text-muted" },
+                              [_vm._v("No admission found")]
+                            )
+                          : _vm._e(),
+                      ],
+                      2
+                    ),
+                  ]),
+                ]
+              ),
+            ]),
+          ]),
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -46723,7 +46928,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Dropdown Information")]
+        [_vm._v("New Municipality")]
       ),
       _vm._v(" "),
       _c(

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
+use App\Models\Municipality;
 use App\Models\PatientAdmission;
 use App\Models\PatientAdmissionTest;
 use Illuminate\Http\Request;
@@ -33,5 +35,16 @@ class DashboardController extends Controller
         })->get();
 
         return DefaultResource::collection($data);
+    }
+
+    public function admin(){
+        $municipality = Municipality::count();
+        $facility = Facility::count();
+
+        $data = [
+            'municipality' => $municipality,
+            'facility' => $facility
+        ];
+        return $data;
     }
 }

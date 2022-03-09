@@ -44,7 +44,7 @@
             },
 
             create(){
-                axios.post(this.currentUrl + '/request/admin/user/store', {
+                axios.post(this.currentUrl + '/request/user/store', {
                     id: this.user.id,
                     is_active: (this.user.is_active == 1) ? 0 : 1,
                     editable: true

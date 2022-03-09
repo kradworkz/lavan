@@ -10,6 +10,7 @@ window.Vue = require('vue').default;
 import VueRouter from 'vue-router';
 
 Vue.component('home-index', require('./components/Admin/Home/Index.vue').default);
+Vue.component('home-admin', require('./components/Admin/Home/Admin.vue').default);
 
 Vue.component('dropdown-index', require('./components/Admin/Dropdown/Index.vue').default);
 Vue.component('dropdown-create', require('./components/Admin/Dropdown/Create.vue').default);

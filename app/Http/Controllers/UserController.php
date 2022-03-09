@@ -28,7 +28,7 @@ class UserController extends Controller
     public function store(UserRequest $request){
         $data = \DB::transaction(function () use ($request){
             if($request->editable){
-                $data = User::findOrFail($request->id);
+                $data = User::with('municipality')->where('id',$request->id)->first();
                 $data->update($request->except('editable'));
                 return $data;
             }else{

@@ -65,6 +65,7 @@ Route::prefix('request')->group(function(){
 
     Route::get('/dashboard/tests', 'DashboardController@testLists');
     Route::get('/dashboard/releasing', 'DashboardController@releasing');
+    Route::get('/dashboard/admin', 'DashboardController@admin');
 
 });
 

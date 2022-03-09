@@ -15,6 +15,16 @@
                 </div>
             </div>
         </div>
-        <home-index></home-index>
+        <home-index v-if="type != 'Super Administrator'"></home-index>
+        <home-admin v-else></home-admin>
     </div>
 </template>
+<script>
+export default {
+    data(){
+        return {
+            type: window.User.type
+        }
+    }
+}
+</script>
