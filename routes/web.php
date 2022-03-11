@@ -40,7 +40,7 @@ Route::prefix('request')->group(function(){
     Route::get('/dropdowns/{type}', 'DropdownController@lists');
     Route::post('/dropdown/store', 'DropdownController@store');
 
-    Route::post('/user/password', 'HomeController@password');
+    Route::post('/user/password', 'UserController@password');
     Route::get('/users/{key}/{counts}', 'UserController@lists');
     Route::post('/user/store', 'UserController@store');
     Route::get('/user/logs/{key}/{counts}', 'UserController@myLogs');

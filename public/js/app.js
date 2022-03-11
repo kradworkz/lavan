@@ -4724,6 +4724,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6619,7 +6625,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -7016,6 +7021,12 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_Pages_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/Home.vue */ "./resources/js/Pages/Home.vue"));
   },
   name: 'home'
+}, {
+  path: '/profile',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_Pages_settings_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Pages/settings.vue */ "./resources/js/Pages/settings.vue"));
+  },
+  name: 'profile'
 }, {
   path: '/admission',
   component: function component() {
@@ -50465,6 +50476,16 @@ var render = function () {
                         },
                         [
                           _c("td", [
+                            _c("div", { staticClass: "avatar-xs" }, [
+                              _c(
+                                "span",
+                                { staticClass: "avatar-title rounded-circle" },
+                                [_vm._v(_vm._s(list.patient_no))]
+                              ),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
                             _c(
                               "h5",
                               { staticClass: "font-size-12 mb-0 text-dark" },
@@ -50741,6 +50762,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-light" }, [
       _c("tr", { staticClass: "font-size-11" }, [
+        _c("th"),
+        _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v("Facility")]),
@@ -53983,7 +54006,7 @@ var render = function () {
                             _c(
                               "span",
                               { staticClass: "avatar-title rounded-circle" },
-                              [_vm._v(_vm._s(list.firstname.charAt(0)))]
+                              [_vm._v(_vm._s(list.code))]
                             ),
                           ]),
                         ]),
@@ -54391,25 +54414,16 @@ var render = function () {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(list.completion_at))]),
                           _vm._v(" "),
-                          list.is_positive || list.is_positive == null
-                            ? _c("td", [
-                                _c(
-                                  "span",
-                                  {
-                                    class:
-                                      "badge badge-bg badge-" +
-                                      list.status.color,
-                                  },
-                                  [_vm._v(_vm._s(list.status.name))]
-                                ),
-                              ])
-                            : _c("td", [
-                                _c(
-                                  "span",
-                                  { class: "badge badge-bg badge-success" },
-                                  [_vm._v("Released")]
-                                ),
-                              ]),
+                          _c("td", [
+                            _c(
+                              "span",
+                              {
+                                class:
+                                  "badge badge-bg badge-" + list.status.color,
+                              },
+                              [_vm._v(_vm._s(list.status.name))]
+                            ),
+                          ]),
                         ]
                       )
                     }),
@@ -70492,7 +70506,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Pages_Home_vue":1,"resources_js_Pages_Admission_vue":1,"resources_js_Pages_Tests_vue":1,"resources_js_Pages_User_vue":1,"resources_js_Pages_Log_vue":1,"resources_js_Pages_Dropdown_vue":1,"resources_js_Pages_Municipality_vue":1,"resources_js_Pages_MuniProfile_vue":1,"resources_js_Pages_Facility_vue":1,"resources_js_Pages_Room_vue":1,"resources_js_Pages_Patient_vue":1,"resources_js_Pages_Profile_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Pages_Home_vue":1,"resources_js_Pages_settings_vue":1,"resources_js_Pages_Admission_vue":1,"resources_js_Pages_Tests_vue":1,"resources_js_Pages_User_vue":1,"resources_js_Pages_Log_vue":1,"resources_js_Pages_Dropdown_vue":1,"resources_js_Pages_Municipality_vue":1,"resources_js_Pages_MuniProfile_vue":1,"resources_js_Pages_Facility_vue":1,"resources_js_Pages_Room_vue":1,"resources_js_Pages_Patient_vue":1,"resources_js_Pages_Profile_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

@@ -47,6 +47,7 @@
                     <table class="table table-centered table-nowrap">
                         <thead class="thead-light">
                             <tr class="font-size-11">
+                                <th></th>
                                 <th>Name</th>
                                 <th class="text-center">Facility</th>
                                 <th class="text-center">Port of Exit</th>
@@ -59,6 +60,11 @@
                         </thead>
                         <tbody>
                             <tr v-for="list in lists" v-bind:key="list.id" :class="[(list.status.name == 'Active') ? 'bg-soft-warning' : '']">
+                                <td>
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title rounded-circle">{{list.patient_no}}</span>
+                                    </div>
+                                </td>
                                 <td >
                                     <h5 class="font-size-12 mb-0 text-dark">{{list.patient_name}}</h5>
                                     <p class="font-size-12 text-muted mb-0">{{list.patient_address}}</p>

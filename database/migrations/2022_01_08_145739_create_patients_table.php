@@ -16,6 +16,7 @@ class CreatePatientsTable extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->string('code')->unique();
             $table->string('mobile')->unique();
             $table->string('firstname',150);
             $table->string('lastname',150);

@@ -21,7 +21,7 @@ class PatientController extends Controller
         ->whereHas('barangay',function ($query) use ($municipality_id) {
             $query->where('municipality_id',$municipality_id);
         })
-        ->orderBy('id','DESC')->paginate($count);
+        ->orderBy('code','ASC')->paginate($count);
         return PatientResource::collection($data);
     }
 
@@ -32,7 +32,9 @@ class PatientController extends Controller
                 $data->update($request->except('editable'));
                 return $data;
             }else{
-                $data = Patient::create($request->all());
+                $count = Patient::count();
+                $code = $count+1;
+                $data = Patient::create(array_merge($request->all(),['code' => $code]));
                 $data = Patient::with('histories')->with('barangay')->where('id',$data->id)->first();
                 return $data;
             }

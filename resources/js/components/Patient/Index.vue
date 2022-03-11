@@ -50,7 +50,7 @@
                             <tr v-for="list in lists" v-bind:key="list.id">
                                 <td>
                                     <div class="avatar-xs">
-                                        <span class="avatar-title rounded-circle">{{list.firstname.charAt(0)}}</span>
+                                        <span class="avatar-title rounded-circle">{{list.code}}</span>
                                     </div>
                                 </td>
                                 <td>

@@ -53,4 +53,30 @@ class UserController extends Controller
         ->where('causer_id',\Auth::user()->id)->orderBy('created_at','DESC')->paginate($count);
         return LogResource::collection($data);
     }
+
+    public function password(Request $request){
+
+        if (!(\Hash::check($request->get('current_password'), \Auth::user()->password))) {
+            return response()->json(['error' => "Password doesn't match."], 401);
+        }
+
+        if(strcmp($request->get('current_password'), $request->get('password')) == 0){
+            return response()->json(['error' => 'Please choose a different password'], 401);
+        }
+
+        $validatedData = $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|string|min:9|confirmed',
+        ]);
+
+        User::find(\Auth::user()->id)->update(['password'=> \Hash::make($request->input('password'))]);
+
+        if(\Auth::user()->status == 'Inactive'){
+            User::find(auth()->user()->id)->update(['status'=> 'Active']);
+            return response()->json(['success' => 'First Attempt'], 200);
+        }else{
+            return response()->json(['success' => 'Password changed successfully !'], 200);
+        }
+    }
+
 }

@@ -84,13 +84,20 @@ class AdmissionController extends Controller
                     $pt = PatientAdmission::with('facility','facility.bed.facility')->with('status')->with('patient')->where('id',$request->admission_id)->first();
                     if(!$pt->is_home){
                         $bed = Bed::where('id',$pt->facility->bed_id)->update(['is_available' => 1]);
+                        $bed = Bed::where('id',$request->bed_id)->update(['is_available' => 0]);
+                        $pt->update($request->except(['editable','bed_id','admission_id']));
+                        $pt->facility()->update($request->except(['editable','id','is_positive','status_id','admission_id']));
+                    }else{
+                        $bed = Bed::where('id',$request->bed_id)->update(['is_available' => 0]);
+                        $pt->update($request->except(['editable','bed_id','admission_id']));
+                        $pt->is_home = 0;
+                        $pt->save();
+                        $pt->facility()->create($request->except(['editable','id','is_positive','status_id','admission_id']));
                     }
-                    $bed = Bed::where('id',$request->bed_id)->update(['is_available' => 0]);
-                    $pt->update($request->except(['editable','bed_id','admission_id']));
-                    $pt->facility()->update($request->except(['editable','id','is_positive','status_id','admission_id']));
+                   
                 }else{
                     $pt = PatientAdmission::with('facility','facility.bed.facility')->with('status')->with('patient')->where('id',$request->admission_id)->first();
-                    $pt->status_id = $status;
+                    $pt->is_positive = 0;
                     $pt->save();
                 }
             }

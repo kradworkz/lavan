@@ -22,6 +22,7 @@ class AdmissionResource extends JsonResource
             'completion_at' => $this->completion_at,
             'status' => $this->status,
             'facility' => $this->facility,
+            'patient_no' => $this->patient->code,
             'patient_name' => $this->patient->lastname.', '.$this->patient->firstname.' '.$this->patient->middlename.'.',
             'patient_address' => $this->patient->address,
             'is_released' => $this->is_released,

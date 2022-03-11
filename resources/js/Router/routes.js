@@ -5,6 +5,12 @@ const routes = [{
         name: 'home'
     },
     {
+        path: '/profile',
+        component: () =>
+            import ('../Pages/settings.vue'),
+        name: 'profile'
+    },
+    {
         path: '/admission',
         component: () =>
             import ('../Pages/Admission.vue'),
