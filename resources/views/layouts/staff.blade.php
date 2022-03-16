@@ -21,6 +21,7 @@
             <div id="layout-wrapper">
                 @include('layouts.includes.header')
                 @include('layouts.includes.navigation')
+                @include('layouts.includes.forms')
 
                 <div class="main-content">
                     <div class="page-content">

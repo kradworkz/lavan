@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bed;
+use App\Models\Notification;
 use App\Models\PatientAdmission;
 use App\Models\PatientAdmissionTest;
 use App\Models\PatientAdmissionFacility;
@@ -51,6 +52,11 @@ class AdmissionController extends Controller
                 }
                 //with('bed','bed.facility')
                 $data = PatientAdmission::with('facility','facility.bed.facility')->with('status')->with('patient')->where('id',$data->id)->first();
+                $notification = new Notification;
+                $notification->content = 'New Admission';
+                $notification->added_by = \Auth::user()->id;
+                $notification->admission_id = $data->id;
+                $notification->save();
                 return $data;
             }
         });
@@ -100,6 +106,13 @@ class AdmissionController extends Controller
                     $pt->is_positive = 0;
                     $pt->save();
                 }
+
+                $notification = new Notification;
+                $notification->content = ($request->is_positive) ? 'Positive' : 'Negative';
+                $notification->type = 2;
+                $notification->added_by = \Auth::user()->id;
+                $notification->admission_id = $data->id;
+                $notification->save();
             }
         }else{
             $count = PatientAdmissionTest::where('admission_id',$request->id)->where('is_positive',NULL)->count();

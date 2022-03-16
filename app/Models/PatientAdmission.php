@@ -40,6 +40,11 @@ class PatientAdmission extends Model
         return $this->hasMany('App\Models\PatientAdmissionTest', 'admission_id');
     } 
 
+    public function notifications()
+    {
+        return $this->hasMany('App\Models\Notification', 'admission_id');
+    }
+
     public function getExitPortAttribute($value){
         return ucwords(strtolower($value));
     }

@@ -27,7 +27,7 @@ class Patient extends Model
 
     public function histories()
     {
-        return $this->hasMany('App\Models\PatientAdmission', 'patient_id');
+        return $this->hasMany('App\Models\PatientAdmission', 'patient_id')->orderBy('created_at','DESC');
     } 
 
     public function barangay()

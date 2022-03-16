@@ -9,6 +9,9 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 import VueRouter from 'vue-router';
 
+Vue.component('notifications', require('./components/Notification.vue').default);
+Vue.component('notification-view', require('./components/NotificationView.vue').default);
+
 Vue.component('home-index', require('./components/Admin/Home/Index.vue').default);
 Vue.component('home-admin', require('./components/Admin/Home/Admin.vue').default);
 
@@ -69,6 +72,13 @@ const app = new Vue({
         counts: function() {
             return Math.floor((this.height - 175) / 54);
         }
+    },
+
+    methods: {
+        viewPatient(id) {
+            $("#view-ad").modal('show');
+            this.$refs.wew.profiles(id);
+        },
     },
     el: '#app',
     router,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\User;
+use App\Models\Notification;
 use App\Models\PatientAdmission;
 use App\Http\Traits\BarangayTrait;
 use App\Services\SMSGateway;
@@ -41,28 +42,22 @@ class HomeController extends Controller
         }
     }
 
-    public function test(SMSGateway $sms)
-    {
-        $lists = PatientAdmission::with('facility.bed.facility')->with('patient')->where('completion_at',today())->get();
-        foreach($lists as $list){  
-            if($list->is_home){
-                $message = 'Good day, '.$list->patient->firstname.' '.$list->patient->lastname.'. Your quarantine period has ended. Keep safe always..                                 
-                
--Rural Health Unit
+    public function notifications(){
+        $role = \Auth::user()->type; 
+        $query = Notification::query();
+        $query->with('admission.patient')->with('user');
+        $query->where('is_seen',0);
+        ($role == 'Contact Tracer') ? $query->where('type',2) : $query->where('type',1) ; 
+        ($role == 'Contact Tracer') ? $query->where('added_by','!=',\Auth::user()->id) : '' ; 
+        $data = $query->get();
 
-Thank you!';
-                $sms->sendSMS($message, $list->patient->mobile);
-            }else{
-                $message = 'Good day, '.$list->patient->firstname.' '.$list->patient->lastname.'. Your quarantine period has ended.';
-                $sms->sendSMS($message, $list->patient->mobile);
-    
-                $municipality_id = $list->patient->barangay->municipality_id;
-                $user = User::where('type','Isolation Manager')->where('municipality_id',$municipality_id)->first();
-                
-                $message = 'Good day, '.$user->name.'! Patient '.$list->patient->firstname.' '.$list->patient->lastname.' at '.$list->facility->bed->facility->name.' on floor '.$list->facility->bed->floor.' room '.$list->facility->bed->name.', will be released today. Kindly Assist the patient, Thank you!';
-                $sms->sendSMS($message, $user->mobile);
-            } 
-        }
+        return $data;
+    }
+
+    public function seen($id){
+        $data = Notification::where('id',$id)->first();
+        $data->is_seen = 1;
+        $data->save();
     }
 
 }

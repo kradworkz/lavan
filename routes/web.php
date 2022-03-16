@@ -13,7 +13,6 @@ use App\Http\Controllers\Auth\WelcomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/sms', 'HomeController@test');
 
 Auth::routes(['register' => false]);
 
@@ -30,6 +29,10 @@ Route::prefix('statistics')->group(function(){
 });
 
 Route::prefix('request')->group(function(){
+
+    Route::get('/notifications', 'HomeController@notifications');
+    Route::get('/seen/{id}', 'HomeController@seen');
+
     Route::get('/municipalities/{keyword}/{count}', 'MunicipalityController@index');
     Route::post('/municipality/store', 'MunicipalityController@store');
     Route::get('/municipalities', 'MunicipalityController@lists');
