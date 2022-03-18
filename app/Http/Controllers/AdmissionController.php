@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bed;
+use App\Models\User;
 use App\Models\Notification;
 use App\Models\PatientAdmission;
 use App\Models\PatientAdmissionTest;
@@ -10,6 +11,7 @@ use App\Models\PatientAdmissionFacility;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\AdmissionResource;
+use App\Services\SMSGateway;
 
 class AdmissionController extends Controller
 {
@@ -33,8 +35,8 @@ class AdmissionController extends Controller
         return AdmissionResource::collection($data);
     }
 
-    public function store(Request $request){
-        $data = \DB::transaction(function () use ($request){
+    public function store(SMSGateway $sms, Request $request){
+        $data = \DB::transaction(function () use ($request,$sms){
             if($request->editable){
                 $data = PatientAdmission::with('facility','facility.bed.facility')->with('status')->with('patient')->where('id',$request->id)->first();
                 $bed = Bed::where('id',$data->bed_id)->update(['is_available' => 1]);
@@ -57,6 +59,17 @@ class AdmissionController extends Controller
                 $notification->added_by = \Auth::user()->id;
                 $notification->admission_id = $data->id;
                 $notification->save();
+
+                $municipality_id = \Auth::user()->municipality_id;
+                $user = User::where('type','Isolation Manager')->where('municipality_id',$municipality_id)->first();
+                if($data->is_home){
+                    $message = 'Good day, New Patient '.$data->patient->firstname.' '.$data->patient->lastname.'. start home quarantine today.';
+                    $sms->sendSMS($message, $user->mobile);
+                }else{
+                    $message = 'Good day, '.$user->name.'! New Patient '.$data->patient->firstname.' '.$data->patient->lastname.' at '.$data->facility->bed->facility->name.' on floor '.$data->facility->bed->floor.' room '.$data->facility->bed->name.', was admitted by '. \Auth::user()->name .', Thank you!';
+                    $sms->sendSMS($message, $user->mobile);
+                }
+
                 return $data;
             }
         });
