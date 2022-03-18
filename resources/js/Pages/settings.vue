@@ -3,7 +3,7 @@
         <div class="row mb-0">
             <div class="col-12" style="margin-bottom: -10px;">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4><span class="mb-0 font-size-13 font-weight-bold">Patient Profile</span></h4>
+                    <h4><span class="mb-0 font-size-13 font-weight-bold">User Profile</span></h4>
 
                     <div class="page-title-right font-size-11">
                         <ol class="breadcrumb m-0">

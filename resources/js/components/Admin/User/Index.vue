@@ -69,7 +69,7 @@
                                         <i v-bind:class="(user.is_active == 1) ? 'text-success bx bx-lock-open' : 'text-dark bx bxs-lock'"></i>
                                     </a>
                                     <a class="mr-3 text-warning" @click="edit(user)"><i class='bx bx-edit-alt' ></i></a>
-                                    <a class="text-danger"><i class='bx bx-trash'></i></a>
+                              
                                 </td>
                             </tr>
                         </tbody>

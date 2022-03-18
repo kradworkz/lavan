@@ -398,7 +398,7 @@ var staticRenderFns = [
                 _c(
                   "span",
                   { staticClass: "mb-0 font-size-13 font-weight-bold" },
-                  [_vm._v("Patient Profile")]
+                  [_vm._v("User Profile")]
                 ),
               ]),
               _vm._v(" "),

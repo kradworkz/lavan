@@ -56,7 +56,7 @@
                                         <i class='bx bx-show'></i>
                                     </router-link>
                                     <a class="mr-3 text-warning" @click="edit(list)"><i class='bx bx-edit-alt' ></i></a>
-                                    <a class="text-danger"><i class='bx bx-trash'></i></a>
+                                    
                                 </td>
                             </tr>
                         </tbody>

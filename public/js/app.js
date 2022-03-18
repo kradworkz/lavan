@@ -46052,8 +46052,6 @@ var render = function () {
                             },
                             [_c("i", { staticClass: "bx bx-edit-alt" })]
                           ),
-                          _vm._v(" "),
-                          _vm._m(2, true),
                         ]),
                       ])
                     }),
@@ -46125,14 +46123,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v("Action")]),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "text-danger" }, [
-      _c("i", { staticClass: "bx bx-trash" }),
     ])
   },
 ]
@@ -47753,8 +47743,6 @@ var render = function () {
                               },
                               [_c("i", { staticClass: "bx bx-edit-alt" })]
                             ),
-                            _vm._v(" "),
-                            _vm._m(1, true),
                           ],
                           1
                         ),
@@ -47800,14 +47788,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v("Action")]),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "text-danger" }, [
-      _c("i", { staticClass: "bx bx-trash" }),
     ])
   },
 ]
@@ -48794,8 +48774,6 @@ var render = function () {
                             },
                             [_c("i", { staticClass: "bx bx-edit-alt" })]
                           ),
-                          _vm._v(" "),
-                          _vm._m(0, true),
                         ]),
                       ])
                     }),
@@ -48842,16 +48820,7 @@ var render = function () {
     ),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "text-danger" }, [
-      _c("i", { staticClass: "bx bx-trash" }),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -52716,8 +52685,6 @@ var render = function () {
                               },
                               [_c("i", { staticClass: "bx bx-edit-alt" })]
                             ),
-                            _vm._v(" "),
-                            _vm._m(1, true),
                           ],
                           1
                         ),
@@ -52783,14 +52750,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th"),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "text-danger" }, [
-      _c("i", { staticClass: "bx bx-trash" }),
     ])
   },
 ]
@@ -55149,8 +55108,6 @@ var render = function () {
                               },
                               [_c("i", { staticClass: "bx bx-edit-alt" })]
                             ),
-                            _vm._v(" "),
-                            _vm._m(1, true),
                           ],
                           1
                         ),
@@ -55202,14 +55159,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th"),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "text-danger" }, [
-      _c("i", { staticClass: "bx bx-trash" }),
     ])
   },
 ]
