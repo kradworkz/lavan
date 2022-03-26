@@ -11,6 +11,7 @@ use App\Models\PatientAdmissionFacility;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\AdmissionResource;
+use App\Http\Requests\TestRequest;
 use App\Services\SMSGateway;
 
 class AdmissionController extends Controller
@@ -93,7 +94,7 @@ class AdmissionController extends Controller
         return $request->id;
     }
 
-    public function test(Request $request){
+    public function test(TestRequest $request){
 
         if($request->editable){
             $data = PatientAdmissionTest::find($request->id);
