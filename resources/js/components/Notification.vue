@@ -31,7 +31,7 @@
                             <h6 class="mt-0 mb-1 text-success" key="t-your-order" v-else>New Result</h6>
                             <div class="font-size-12 text-muted">
                                 <p v-if="notification.type == 1" class="mb-1" key="t-grammer"><span class="font-weight-bold text-primary">{{notification.admission.patient.firstname}} {{notification.admission.patient.lastname}}</span> was admitted by <span class="font-weight-bold text-dark">{{ notification.user.name }}</span></p>
-                                <p v-else class="mb-1" key="t-grammer"><span class="font-weight-bold text-primary">{{notification.admission.patient.firstname}} {{notification.admission.patient.lastname}}</span> result was <span class="font-weight-bold" :class="[(notification.content == 'Positive') ? 'text-danger' : 'text-success']">{{ notification.content }}</span> added by <span class="font-weight-bold text-dark">{{ notification.user.name }}</span></p>
+                                <p v-else class="mb-1" key="t-grammer"><span class="font-weight-bold text-primary">{{notification.admission.patient.firstname}} {{notification.admission.patient.lastname}}</span> <span class="font-weight-bold">{{notification.remarks}}</span> result was <span class="font-weight-bold" :class="[(notification.content == 'Positive') ? 'text-danger' : 'text-success']">{{ notification.content }}</span> added by <span class="font-weight-bold text-dark">{{ notification.user.name }}</span></p>
                                 <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span key="t-min-ago">{{ notification.created_at}}</span></p>
                             </div>
                         </div>

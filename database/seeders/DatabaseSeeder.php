@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FacilitiesTableSeeder::class);
         $this->call(BedsTableSeeder::class);
         $this->call(DropdownsTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
     }
 }

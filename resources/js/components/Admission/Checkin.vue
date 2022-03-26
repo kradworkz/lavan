@@ -281,10 +281,12 @@
 
             </div>
         </div>
+        <loading :active.sync="isLoading" :can-cancel="false" loader="dots" background-color="black" :is-full-page="fullPage"></loading>
     </div>
 </template>
 
 <script>
+    import Loading from 'vue-loading-overlay';
     import Multiselect from 'vue-multiselect';
     export default {
         props: ['categories'],
@@ -322,7 +324,9 @@
                     bed_id: '',
                     patient_id: '',
                     is_home: '',
-                }
+                },
+                isLoading: false,
+                fullPage: true
             }
         },
 
@@ -451,6 +455,6 @@
                 this.user = {};
                 this.disable = 1;
             }
-        }, components : { Multiselect }
+        }, components : { Multiselect, Loading }
     }
 </script>

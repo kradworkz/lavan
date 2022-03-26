@@ -46,6 +46,7 @@ Vue.component('admission-check', require('./components/Admission/Checkin.vue').d
 Vue.component('admission-checkout', require('./components/Admission/Checkout.vue').default);
 Vue.component('admission-result', require('./components/Admission/Result.vue').default);
 Vue.component('admission-test', require('./components/Admission/Test.vue').default);
+Vue.component('admission-void', require('./components/Admission/Void.vue').default);
 
 Vue.component('tests-index', require('./components/Tests/Index.vue').default);
 

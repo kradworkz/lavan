@@ -36,6 +36,7 @@
                         <div class="form-group">
                             <label>Type of Test: <span v-if="errors.test" class="haveerror">({{ errors.test[0] }})</span></label>
                                 <multiselect 
+                                :disabled="dis"
                                 v-model="test" 
                                 :options="tests"
                                 :allow-empty="false"
@@ -63,6 +64,7 @@
                 tests: ["RT-PCR","Antigen"],
                 test: '', 
                 user: '',
+                dis:false
             }
         },
 
@@ -70,7 +72,11 @@
             set(user){
                 this.user = user;
             },
-
+            set2(user){
+                this.user = user;
+                this.test = 'RT-PCR';
+                this.dis = true;
+            },
             add(){
                 axios.post(this.currentUrl + '/request/admission/test', {
                     id: this.user.id,

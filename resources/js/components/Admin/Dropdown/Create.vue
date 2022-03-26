@@ -99,6 +99,7 @@
             },
 
             edit(list,editable){
+                this.id = list.id;
                 this.name = list.name;
                 this.color = list.color;
                 this.type = list.type;

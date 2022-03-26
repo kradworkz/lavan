@@ -6,10 +6,22 @@ use App\Models\Facility;
 use App\Models\Bed;
 use App\Models\Dropdown;
 use App\Models\PatientAdmission;
+use App\Models\PatientAdmissionTest;
 use Illuminate\Http\Request;
 
 class StatisticController extends Controller
-{
+{   
+    public function index(){
+        $array = [
+            'facilities' => $this->facility(),
+            'cases' => $this->cases(),
+            'isolated' => $this->isolated(),
+            'total' => $this->total()
+        ];
+
+        return $array;
+    }
+
     public function facility(){
         $municipality_id = \Auth::user()->municipality_id;
         
@@ -32,11 +44,18 @@ class StatisticController extends Controller
             });
         })->count();
 
+        $antigen = PatientAdmissionTest::where('is_rtpcr',0)->count();
+        $rtpcr = PatientAdmissionTest::where('is_rtpcr',1)->count();
+
         $data = [
             "facility" => $facility,
             "occupied" => $occupied,
             "vacant" => $vacant,
             "total" => $occupied+$vacant,
+            "swabs" => [
+                'antigen' => $antigen,
+                'rtpcr' => $rtpcr
+            ]
         ];
 
         $counts = [];

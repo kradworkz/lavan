@@ -43,10 +43,18 @@ class HomeController extends Controller
     }
 
     public function notifications(){
+        $municipality_id = \Auth::user()->municipality_id;
         $role = \Auth::user()->type; 
         $query = Notification::query();
         $query->with('admission.patient')->with('user');
         $query->where('is_seen',0);
+        $query->whereHas('admission',function ($query) use ($municipality_id) {
+            $query->whereHas('patient',function ($query) use ($municipality_id) {
+                $query->whereHas('barangay',function ($query) use ($municipality_id) {
+                    $query->where('municipality_id',$municipality_id);
+                });
+            });
+        });
         ($role == 'Contact Tracer') ? $query->where('type',2) : $query->where('type',1) ; 
         ($role == 'Contact Tracer') ? $query->where('added_by','!=',\Auth::user()->id) : '' ; 
         $data = $query->get();

@@ -21,13 +21,6 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class,]], function () {
     Route::post('welcome/{user}', [WelcomeController::class, 'savePassword']);
 });
 
-Route::prefix('statistics')->group(function(){
-    Route::get('/facility', 'StatisticController@facility');
-    Route::get('/cases', 'StatisticController@cases');
-    Route::get('/isolated', 'StatisticController@isolated');
-    Route::get('/total', 'StatisticController@total');
-});
-
 Route::prefix('request')->group(function(){
 
     Route::get('/notifications', 'HomeController@notifications');
@@ -65,11 +58,16 @@ Route::prefix('request')->group(function(){
     Route::post('/admission/store', 'AdmissionController@store');
     Route::post('/admission/checkout', 'AdmissionController@checkout');
     Route::post('/admission/test', 'AdmissionController@test');
+    Route::post('/admission/void', 'AdmissionController@void');
 
     Route::get('/dashboard/tests', 'DashboardController@testLists');
     Route::get('/dashboard/releasing', 'DashboardController@releasing');
     Route::get('/dashboard/admin', 'DashboardController@admin');
+    Route::get('/dashboard/index', 'DashboardController@index');
+});
 
+Route::prefix('statistics')->group(function(){
+    Route::get('/index', 'StatisticController@index');
 });
 
 Route::get('/{any?}', 'HomeController@home')->where('any', '[\/\w\.-]*');

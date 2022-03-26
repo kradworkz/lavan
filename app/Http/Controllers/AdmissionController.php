@@ -101,17 +101,19 @@ class AdmissionController extends Controller
             if($data->save()){
                 if($request->is_positive){
                     $pt = PatientAdmission::with('facility','facility.bed.facility')->with('status')->with('patient')->where('id',$request->admission_id)->first();
-                    if(!$pt->is_home){
-                        $bed = Bed::where('id',$pt->facility->bed_id)->update(['is_available' => 1]);
-                        $bed = Bed::where('id',$request->bed_id)->update(['is_available' => 0]);
-                        $pt->update($request->except(['editable','bed_id','admission_id']));
-                        $pt->facility()->update($request->except(['editable','id','is_positive','status_id','admission_id']));
-                    }else{
-                        $bed = Bed::where('id',$request->bed_id)->update(['is_available' => 0]);
-                        $pt->update($request->except(['editable','bed_id','admission_id']));
-                        $pt->is_home = 0;
-                        $pt->save();
-                        $pt->facility()->create($request->except(['editable','id','is_positive','status_id','admission_id']));
+                    if($data->is_rtpcr){
+                        if(!$pt->is_home){
+                            $bed = Bed::where('id',$pt->facility->bed_id)->update(['is_available' => 1]);
+                            $bed = Bed::where('id',$request->bed_id)->update(['is_available' => 0]);
+                            $pt->update($request->except(['editable','bed_id','admission_id']));
+                            $pt->facility()->update($request->except(['editable','id','is_positive','status_id','admission_id']));
+                        }else{
+                            $bed = Bed::where('id',$request->bed_id)->update(['is_available' => 0]);
+                            $pt->update($request->except(['editable','bed_id','admission_id']));
+                            $pt->is_home = 0;
+                            $pt->save();
+                            $pt->facility()->create($request->except(['editable','id','is_positive','status_id','admission_id']));
+                        }
                     }
                    
                 }else{
@@ -124,19 +126,34 @@ class AdmissionController extends Controller
                 $notification->content = ($request->is_positive) ? 'Positive' : 'Negative';
                 $notification->type = 2;
                 $notification->added_by = \Auth::user()->id;
-                $notification->admission_id = $data->id;
+                $notification->admission_id = $data->admission_id;
+                $notification->remarks = ($data->is_rtpcr) ? 'RT-PCR' : 'Antigen';
                 $notification->save();
             }
         }else{
             $count = PatientAdmissionTest::where('admission_id',$request->id)->where('is_positive',NULL)->count();
 
             if($count == 0){
+
+                $old = PatientAdmissionTest::where('admission_id',$request->id)->where('is_old',0)->count();
+                if($old>0){
+                    $old = PatientAdmissionTest::where('admission_id',$request->id)->where('is_old',0)->first();
+                    $old->is_old = 1;
+                    $old->save();
+                }
+
                 $data = new PatientAdmissionTest;
                 $data->is_rtpcr = ($request->test == 'RT-PCR') ? 1 : 0;
                 $data->admission_id = $request->id;
                 $data->save();
             }
         }
+    }
+
+    public function void(Request $request){
+        $data = PatientAdmissionTest::where('admission_id',$request->id)->where('is_old',0)->first();
+        $data->is_old = 1;
+        $data->save();
     }
     
 }

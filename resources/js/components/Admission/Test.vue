@@ -31,7 +31,7 @@
                 </div>
                 </blockquote>
 
-                <div class="row customerform" v-if="result == 1">
+                <div class="row customerform" v-if="result == 1 && user.is_rtpcr == 1">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Facility: <span v-if="errors.facility_id" class="haveerror">({{ errors.facility_id[0] }})</span></label>
@@ -127,6 +127,9 @@
                 .then(response => {
                     this.$emit('status', response.data.data);
                     $("#result1").modal('hide');
+                     Vue.$toast.success('<strong>Result Added</strong>', {
+                        position: 'bottom-right'
+                    });
                 })
                 .catch(error => {
                     if (error.response.status == 422) {

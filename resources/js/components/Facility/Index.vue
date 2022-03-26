@@ -56,7 +56,7 @@
                                     <h5 class="font-size-13 mb-0 text-dark">{{list.name}}</h5>
                                     <p class="font-size-12 text-muted mb-0">{{list.address}}</p>
                                 </td>
-                                <td class="text-center">{{list.available}} of {{list.beds}}</td>
+                                <td class="text-center" :class="(list.available != list.beds) ? 'text-danger' : ''">{{list.available}} of {{list.beds}}</td>
                                 <td class="text-center">{{(list.is_main == 0) ? 'Barangay Isolation' : 'Main Isolation' }}</td>
                                 <td class="text-right">
                                     <router-link :to="{ path: '/facility/'+list.id }" class="mr-3">

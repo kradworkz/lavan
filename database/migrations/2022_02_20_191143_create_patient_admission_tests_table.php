@@ -18,6 +18,7 @@ class CreatePatientAdmissionTestsTable extends Migration
             $table->increments('id');
             $table->boolean('is_rtpcr');
             $table->boolean('is_positive')->nullable();
+            $table->boolean('is_old')->default(0);
             $table->integer('admission_id')->unsigned()->index();
             $table->foreign('admission_id')->references('id')->on('patient_admissions')->onDelete('cascade');
             $table->timestamps();

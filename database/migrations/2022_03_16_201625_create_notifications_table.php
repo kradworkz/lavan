@@ -19,6 +19,7 @@ class CreateNotificationsTable extends Migration
             $table->longText('content');
             $table->string('type')->default(1);
             $table->boolean('is_seen')->default(0);
+            $table->string('remarks')->nullable();
             $table->integer('admission_id')->unsigned()->index();
             $table->foreign('admission_id')->references('id')->on('patient_admissions')->onDelete('cascade');
             $table->integer('added_by')->unsigned()->index();
