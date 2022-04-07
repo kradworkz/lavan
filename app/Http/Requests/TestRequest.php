@@ -25,7 +25,7 @@ class TestRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'test' => 'required',
+            'is_positive' => 'sometimes|required',
         ];
     }
 }
