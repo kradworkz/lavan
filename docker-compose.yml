@@ -31,11 +31,18 @@ services:
     tty: true
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./:/var/www
-      - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
     networks:
       - lavan-app-network
+      
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
 
   db:
     image: mysql:5.7.22
