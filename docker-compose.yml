@@ -27,23 +27,13 @@ services:
   webserver:
     image: nginx:alpine
     container_name: lavan-webserver
-    restart: always
+    restart: unless-stopped
     tty: true
     ports:
       - "80:80"
-      - 443:443
     volumes:
       - ./:/var/www
-      - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/:ro
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
-    networks:
-      - lavan-app-network
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - lavan-app-network
 
