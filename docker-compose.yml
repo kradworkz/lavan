@@ -31,9 +31,11 @@ services:
     tty: true
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./:/var/www
       - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./certbot/www:/var/www/certbot/:ro
     networks:
       - lavan-app-network
 
