@@ -27,10 +27,11 @@ services:
   webserver:
     image: nginx:alpine
     container_name: lavan-webserver
-    restart: unless-stopped
+    restart: always
     tty: true
     ports:
       - "80:80"
+      - 443:443
     volumes:
       - ./:/var/www
       - ./dockerize/nginx/conf.d/:/etc/nginx/conf.d/:ro
